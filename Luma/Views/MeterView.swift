@@ -63,6 +63,7 @@ struct MeterView: View {
             HStack(spacing: 8) {
                 LumaLogo()
                     .frame(width: 20, height: 20)
+                    .accessibilityHidden(true)
                 Text("LUMA")
                     .font(.system(size: 15, weight: .heavy)).kerning(6)
                     .foregroundStyle(Theme.ink)

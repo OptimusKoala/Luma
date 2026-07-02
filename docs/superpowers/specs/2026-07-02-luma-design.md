@@ -114,7 +114,7 @@ Luma/ (projet Xcode, SwiftUI, iOS 17+)
 
 ## Identité visuelle — logo « Diaphragme »
 
-Choisi parmi quatre pistes (iris minimal, diaphragme, profil d'objectif, réticule) : un **iris à 7 lamelles** vu de face — 7 comme les crans d'ouverture du 28mm — avec un **cœur rouge** (le point de mesure). Géométrie de référence en espace 100×100 : fût = cercle r40 ; lamelle = segment (50,36)→(78.4,27.8) répété par rotation de 360/7° ; cœur r5.
+Choisi parmi quatre pistes (iris minimal, diaphragme, profil d'objectif, réticule) : un **iris à 7 lamelles** vu de face — 7 comme les crans d'ouverture du 28mm — avec un **cœur rouge** (le point de mesure). Géométrie de référence en espace 100×100 : fût = cercle r40 (trait centré) ; lamelle = segment (50,36)→(78.4,27.8) répété par rotation de 360/7° ; cœur r5. Les épaisseurs de trait diffèrent volontairement entre les deux rendus (compensation optique) : icône 1024 px = fût 5, lamelles 3.5, cœur r5 ; vue in-app ~20 pt = fût 7, lamelles 5, cœur r5.5.
 
 - **Dans l'app** : `LumaLogo` (vue SwiftUI vectorielle, `Luma/Views/LumaLogo.swift`), encre sur champagne, 20 pt, à gauche du mot LUMA dans l'en-tête.
 - **Icône d'app** : crème sur dégradé cuir noir, 1024×1024, générée par `scripts/generate-appicon.swift` (CoreGraphics, même géométrie) dans `Luma/Assets.xcassets/AppIcon.appiconset/`. Nom affiché sous l'icône : **LUMA** (`CFBundleDisplayName`).

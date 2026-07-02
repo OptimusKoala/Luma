@@ -11,8 +11,10 @@ struct LumaLogo: View {
         GeometryReader { geo in
             let s = min(geo.size.width, geo.size.height) / 100
             ZStack {
+                // Fût : trait centré sur r=40, comme l'icône (cf. spec).
                 Circle()
-                    .strokeBorder(color, lineWidth: 7 * s)
+                    .stroke(color, lineWidth: 7 * s)
+                    .frame(width: 80 * s, height: 80 * s)
                 ForEach(0..<7, id: \.self) { blade in
                     IrisBlade()
                         .stroke(color, style: StrokeStyle(lineWidth: 5 * s,
