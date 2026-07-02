@@ -31,22 +31,34 @@ final class CameraService: ObservableObject {
         default:
             status = .denied; return
         }
-        configureAndRun()
+        await configureAndRun()
     }
 
-    private func configureAndRun() {
-        guard let device = AVCaptureDevice.default(
-                .builtInWideAngleCamera, for: .video, position: .back),
-              let input = try? AVCaptureDeviceInput(device: device) else {
+    private func configureAndRun() async {
+        // Toute la configuration hors du thread principal : après un
+        // force-quit avec la caméra active, le système peut mettre plusieurs
+        // secondes à libérer le matériel — sur le main actor, ça gelait
+        // l'interface (et l'animation de lancement) pendant l'attente.
+        let session = self.session
+        let device: AVCaptureDevice? = await Task.detached(priority: .userInitiated) {
+            guard let device = AVCaptureDevice.default(
+                    .builtInWideAngleCamera, for: .video, position: .back),
+                  let input = try? AVCaptureDeviceInput(device: device) else {
+                return nil
+            }
+            session.beginConfiguration()
+            session.sessionPreset = .high
+            if session.canAddInput(input) { session.addInput(input) }
+            session.commitConfiguration()
+            session.startRunning()
+            return device
+        }.value
+
+        guard let device else {
             status = .unavailable
             return
         }
         self.device = device
-
-        session.beginConfiguration()
-        session.sessionPreset = .high
-        if session.canAddInput(input) { session.addInput(input) }
-        session.commitConfiguration()
 
         // exposureTargetOffset change à chaque itération de l'autoexposition :
         // un seul observateur suffit à rafraîchir toute la lecture.
@@ -64,8 +76,8 @@ final class CameraService: ObservableObject {
             Task { @MainActor [weak self] in self?.reading = reading }
         }
 
-        let session = self.session
-        Task.detached(priority: .userInitiated) { session.startRunning() }
+        // La session tourne réellement à ce stade (startRunning a été fait
+        // dans la tâche de configuration) : le statut reflète l'état vrai.
         status = .running
     }
 
