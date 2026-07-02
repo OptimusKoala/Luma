@@ -1,6 +1,6 @@
 name: Luma
 options:
-  bundleIdPrefix: perso.mbernard
+  bundleIdPrefix: com.michaelbernard69
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -9,6 +9,7 @@ settings:
     SWIFT_VERSION: "5.9"
     TARGETED_DEVICE_FAMILY: "1"
     CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: SJVC6ZJ4VT # Personal Team (michaelbernard69@gmail.com)
 targets:
   Luma:
     type: application
