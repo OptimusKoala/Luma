@@ -22,7 +22,7 @@ L'utilisateur est débutant en photographie argentique. L'app doit donc être si
 | Périmètre v1 | Posemètre uniquement, aucun extra (pas de journal, pas de compteur de vues) |
 | Pellicule / ISO | Liste des films courants (Portra 400, Gold 200, HP5+, Tri-X…) + saisie ISO manuelle ; choix mémorisé |
 | Recommandation | Une config idéale mise en avant + molette pour parcourir les paires équivalentes |
-| Mesure | Moyenne de la scène par défaut ; toucher une zone = mesure spot ; re-toucher = retour en moyenne |
+| Mesure | Moyenne de la scène par défaut ; toucher une zone = mesure spot ; toucher ailleurs = déplacer le spot ; toucher le cercle = retour en moyenne |
 | Pédagogie | Explications légères : une phrase par réglage décrivant son effet concret |
 | Direction visuelle | « Chrome & cuir » : argent champagne, noir cuir grainé, rouge FM2 |
 | Techno | Swift + SwiftUI + AVFoundation, iOS 17+, projet Xcode natif |
@@ -32,7 +32,7 @@ L'utilisateur est débutant en photographie argentique. L'app doit donc être si
 De haut en bas :
 
 1. **En-tête** — logo LUMA ; badge de la pellicule chargée (ex. « Portra 400 »), un appui ouvre le `FilmPickerSheet`.
-2. **Viseur** — flux caméra en direct. Affiche discrètement le mode de mesure (« MESURE MOYENNE » / « MESURE SPOT ») et l'EV courant. Un toucher place un cercle de mesure spot à l'endroit touché ; un second toucher revient en mesure moyenne.
+2. **Viseur** — flux caméra en direct. Affiche discrètement le mode de mesure (« MESURE MOYENNE » / « MESURE SPOT ») et l'EV courant. Un toucher place un cercle de mesure spot à l'endroit touché ; toucher un autre endroit déplace le spot ; toucher le cercle lui-même revient en mesure moyenne.
 3. **Molette** — rangée horizontale des paires équivalentes (ouverture · vitesse), la paire recommandée encadrée de rouge au centre. Glissement horizontal pour explorer, avec retour haptique « cliquet » à chaque cran, façon molette du FM2. Légende : « ◂ flou d'arrière-plan · netteté partout ▸ ». Un appui sur la paire recommandée (ou un bouton discret) recentre sur la reco.
 4. **Recommandation** — les trois valeurs en grand : ouverture, vitesse (en rouge, clin d'œil à la gravure du boîtier), ISO du film.
 5. **Pédagogie** — deux lignes : effet de l'ouverture affichée (profondeur de champ) et de la vitesse affichée (mouvement / risque de bougé).
@@ -45,7 +45,7 @@ De haut en bas :
 
 - `ISO` et `exposureDuration` choisis par l'autoexposition de l'iPhone ;
 - `lensAperture` (fixe, connue par appareil) ;
-- `exposureTargetOffset` (écart en EV entre la cible d'exposition et l'obtenu — corrige les scènes extrêmes où l'autoexposition sature).
+- `exposureTargetOffset` (écart en EV entre la cible d'exposition et l'obtenu — corrige les scènes extrêmes où l'autoexposition sature). Convention AVFoundation : valeur **négative** = image plus sombre que la cible (scène sous-exposée par la caméra), donc la scène est plus sombre que ce que ISO/durée seuls indiquent — d'où le `+ exposureTargetOffset` dans la formule. Un test unitaire dédié verrouille cette convention de signe.
 
 La mesure spot déplace `exposurePointOfInterest` sur le point touché (converti en coordonnées du device) ; le retour en moyenne le replace au centre avec le mode d'exposition continu.
 
@@ -59,7 +59,8 @@ La mesure spot déplace `exposurePointOfInterest` sur le point touché (converti
 4. **Choix de la recommandation** (priorités dans l'ordre) :
    - vitesse ≥ 1/125 (marge confortable contre le flou de bougé avec un 28mm à main levée) ;
    - ouverture dans la zone f/5.6–f/8 (piqué optimal de l'objectif) ;
-   - si la lumière manque : ouvrir le diaphragme d'abord, ne descendre sous 1/125 qu'en dernier recours.
+   - si la lumière manque : ouvrir le diaphragme d'abord, ne descendre sous 1/125 qu'en dernier recours ;
+   - **départage déterministe** si plusieurs paires restent candidates : la plus proche de f/8, puis la vitesse la plus basse ≥ 1/125.
 5. **Cas hors plage** :
    - trop sombre (même f/2.8 à 1s sous-expose de plus de ½ EV) → message « Trop sombre pour le FM2 à main levée » ;
    - trop lumineux (même f/22 à 1/4000 surexpose de plus de ½ EV) → message « Trop lumineux pour cette pellicule ».
@@ -83,6 +84,9 @@ Luma/ (projet Xcode, SwiftUI, iOS 17+)
 │   ├── ExposureCalculator.swift — EV, paires FM2, recommandation (pur)
 │   ├── FM2.swift            — constantes : vitesses FM2, ouvertures 28mm
 │   └── FilmStock.swift      — catalogue pellicules + ISO manuel
+│                              (catalogue v1 : Portra 160/400/800, Ektar 100,
+│                               Gold 200, UltraMax 400, HP5+ 400, Tri-X 400,
+│                               Delta 100/400, Fomapan 100/400)
 ├── Views/
 │   ├── MeterView.swift          — écran principal, composition
 │   ├── ViewfinderView.swift     — preview caméra + geste de mesure
