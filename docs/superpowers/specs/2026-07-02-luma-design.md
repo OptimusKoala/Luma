@@ -60,7 +60,7 @@ La mesure spot déplace `exposurePointOfInterest` sur le point touché (converti
    - vitesse ≥ 1/125 (marge confortable contre le flou de bougé avec un 28mm à main levée) ;
    - ouverture dans la zone f/5.6–f/8 (piqué optimal de l'objectif) ;
    - si la lumière manque : ouvrir le diaphragme d'abord, ne descendre sous 1/125 qu'en dernier recours ;
-   - **départage déterministe** si plusieurs paires restent candidates : la plus proche de f/8, puis la vitesse la plus basse ≥ 1/125.
+   - **départage déterministe** si plusieurs paires restent candidates : la plus proche du cœur de la zone f/5.6–f/8 (f/6.7 en stops, de sorte que f/5.6 passe avant f/11), puis la vitesse la plus basse ≥ 1/125.
 5. **Cas hors plage** :
    - trop sombre (même f/2.8 à 1s sous-expose de plus de ½ EV) → message « Trop sombre pour le FM2 à main levée » ;
    - trop lumineux (même f/22 à 1/4000 surexpose de plus de ½ EV) → message « Trop lumineux pour cette pellicule ».
