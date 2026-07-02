@@ -46,6 +46,18 @@ final class MeterResultTests: XCTestCase {
         XCTAssertEqual(reco400!.ev, reco100!.ev + 2, accuracy: 0.6)
     }
 
+    // La dichotomie tooDark/tooBright suppose une grille de paires sans
+    // « trou » : si un futur objectif espaçait les EV de plus de 1,
+    // une scène normale serait faussement déclarée hors plage.
+    func testPairGrid_hasNoCoverageGap() {
+        let evs = FM2.apertures.flatMap { a in
+            FM2.shutterSpeeds.map { ExposurePair(aperture: a, speed: $0).ev }
+        }.sorted()
+        for (prev, next) in zip(evs, evs.dropFirst()) {
+            XCTAssertLessThanOrEqual(next - prev, 1.0 + 1e-9)
+        }
+    }
+
     func testTooDark() {
         XCTAssertEqual(ExposureCalculator.result(ev100: -5, filmISO: 100), .tooDark)
     }

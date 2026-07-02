@@ -74,6 +74,12 @@ extension ExposureCalculator {
             // Ouverture la plus proche du cœur de la zone f/5.6–f/8
             // (f/6.7 en stops — ainsi f/5.6 bat f/11), puis vitesse la
             // plus basse restant ≥ 1/125.
+            // NB : 6.7 est volontairement le point médian ARRONDI de
+            // f/5.6–f/8 en stops (√(5.6×8) ≈ 6.693). L'arrondi fait
+            // pencher la balance vers f/8 d'une marge minuscule
+            // (~0.003 stop) — c'est ce qui décide f/8 contre f/5.6 dans
+            // testSunny16_recommendsF8. Ne pas « simplifier » vers la
+            // moyenne géométrique exacte sans re-vérifier ce test.
             recommended = handheld.min { l, r in
                 let ld = abs(log2(pairs[l].aperture.fNumber / 6.7))
                 let rd = abs(log2(pairs[r].aperture.fNumber / 6.7))
