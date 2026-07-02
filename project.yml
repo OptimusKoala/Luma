@@ -1,0 +1,42 @@
+name: Luma
+options:
+  bundleIdPrefix: perso.mbernard
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    TARGETED_DEVICE_FAMILY: "1"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  Luma:
+    type: application
+    platform: iOS
+    sources: [Luma]
+    info:
+      path: Luma/Info.plist
+      properties:
+        CFBundleDisplayName: Luma
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSCameraUsageDescription: >-
+          Luma mesure la lumière de la scène avec la caméra pour calculer
+          les réglages de ton Nikon FM2.
+  LumaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [LumaTests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: Luma
+schemes:
+  Luma:
+    build:
+      targets:
+        Luma: all
+        LumaTests: [test]
+    test:
+      targets: [LumaTests]
