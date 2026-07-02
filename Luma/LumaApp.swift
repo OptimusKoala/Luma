@@ -4,7 +4,7 @@ import SwiftUI
 struct LumaApp: App {
     var body: some Scene {
         WindowGroup {
-            MeterView()
+            RootView()
         }
     }
 }

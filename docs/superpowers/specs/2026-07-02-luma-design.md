@@ -118,6 +118,7 @@ Choisi parmi quatre pistes (iris minimal, diaphragme, profil d'objectif, réticu
 
 - **Dans l'app** : `LumaLogo` (vue SwiftUI vectorielle, `Luma/Views/LumaLogo.swift`), encre sur champagne, 20 pt, à gauche du mot LUMA dans l'en-tête.
 - **Icône d'app** : crème sur dégradé cuir noir, 1024×1024, générée par `scripts/generate-appicon.swift` (CoreGraphics, même géométrie) dans `Luma/Assets.xcassets/AppIcon.appiconset/`. Nom affiché sous l'icône : **LUMA** (`CFBundleDisplayName`).
+- **Animation de lancement** (`LaunchSplashView`, via `RootView`) : sur fond champagne, le logo fait un tour sur lui-même (0,9 s) pendant que « LUMA » sort de derrière lui, révélé lettre par lettre de gauche à droite (masque + glissement) ; fondu vers l'écran principal à ~1,7 s. L'écran de lancement statique système est champagne (`UILaunchScreen.UIColorName = LaunchBackground`) pour une transition invisible. MeterView (et la caméra) démarrent sous le splash.
 
 ## Hors périmètre v1
 

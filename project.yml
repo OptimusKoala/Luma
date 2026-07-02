@@ -22,7 +22,8 @@ targets:
       path: Luma/Info.plist
       properties:
         CFBundleDisplayName: LUMA
-        UILaunchScreen: {}
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSCameraUsageDescription: >-
           Luma mesure la lumière de la scène avec la caméra pour calculer

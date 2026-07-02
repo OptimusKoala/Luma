@@ -23,7 +23,10 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Luma mesure la lumière de la scène avec la caméra pour calculer les réglages de ton Nikon FM2.</string>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
