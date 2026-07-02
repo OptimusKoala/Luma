@@ -112,6 +112,14 @@ Luma/ (projet Xcode, SwiftUI, iOS 17+)
 - **Tests unitaires** sur `ExposureCalculator` : conversion EV, décalage ISO film, énumération des paires, règle de choix de la reco, arrondis aux crans, cas hors plage (trop sombre / trop lumineux), lissage.
 - **Vérification manuelle** sur iPhone pour la caméra, les gestes et le rendu visuel — app personnelle, on ne sur-teste pas l'UI. Test de plausibilité recommandé : comparer les recommandations de Luma au posemètre intégré du FM2 sur quelques scènes.
 
+## Identité visuelle — logo « Diaphragme »
+
+Choisi parmi quatre pistes (iris minimal, diaphragme, profil d'objectif, réticule) : un **iris à 7 lamelles** vu de face — 7 comme les crans d'ouverture du 28mm — avec un **cœur rouge** (le point de mesure). Géométrie de référence en espace 100×100 : fût = cercle r40 (trait centré) ; lamelle = segment (50,36)→(78.4,27.8) répété par rotation de 360/7° ; cœur r5. Les épaisseurs de trait diffèrent volontairement entre les deux rendus (compensation optique) : icône 1024 px = fût 5, lamelles 3.5, cœur r5 ; vue in-app ~20 pt = fût 7, lamelles 5, cœur r5.5.
+
+- **Dans l'app** : `LumaLogo` (vue SwiftUI vectorielle, `Luma/Views/LumaLogo.swift`), encre sur champagne, 20 pt, à gauche du mot LUMA dans l'en-tête.
+- **Icône d'app** : crème sur dégradé cuir noir, 1024×1024, générée par `scripts/generate-appicon.swift` (CoreGraphics, même géométrie) dans `Luma/Assets.xcassets/AppIcon.appiconset/`. Nom affiché sous l'icône : **LUMA** (`CFBundleDisplayName`).
+- **Animation de lancement** (`LaunchSplashView`, via `RootView`) : sur fond champagne, le logo fait un tour sur lui-même (0,9 s) pendant que « LUMA » sort de derrière lui, révélé lettre par lettre de gauche à droite (masque + glissement) ; fondu vers l'écran principal à ~1,7 s. L'écran de lancement statique système est champagne (`UILaunchScreen.UIColorName = LaunchBackground`) pour une transition invisible. MeterView (et la caméra) démarrent sous le splash.
+
 ## Hors périmètre v1
 
 Journal de prises de vue, compteur de vues du rouleau, pose B et temps de pose longs (réciprocité), support multi-objectifs (la plage f/2.8–f/22 du 28mm est une constante ; prévoir la constante isolée dans `FM2.swift` pour la rendre configurable plus tard).
