@@ -112,6 +112,13 @@ Luma/ (projet Xcode, SwiftUI, iOS 17+)
 - **Tests unitaires** sur `ExposureCalculator` : conversion EV, décalage ISO film, énumération des paires, règle de choix de la reco, arrondis aux crans, cas hors plage (trop sombre / trop lumineux), lissage.
 - **Vérification manuelle** sur iPhone pour la caméra, les gestes et le rendu visuel — app personnelle, on ne sur-teste pas l'UI. Test de plausibilité recommandé : comparer les recommandations de Luma au posemètre intégré du FM2 sur quelques scènes.
 
+## Identité visuelle — logo « Diaphragme »
+
+Choisi parmi quatre pistes (iris minimal, diaphragme, profil d'objectif, réticule) : un **iris à 7 lamelles** vu de face — 7 comme les crans d'ouverture du 28mm — avec un **cœur rouge** (le point de mesure). Géométrie de référence en espace 100×100 : fût = cercle r40 ; lamelle = segment (50,36)→(78.4,27.8) répété par rotation de 360/7° ; cœur r5.
+
+- **Dans l'app** : `LumaLogo` (vue SwiftUI vectorielle, `Luma/Views/LumaLogo.swift`), encre sur champagne, 20 pt, à gauche du mot LUMA dans l'en-tête.
+- **Icône d'app** : crème sur dégradé cuir noir, 1024×1024, générée par `scripts/generate-appicon.swift` (CoreGraphics, même géométrie) dans `Luma/Assets.xcassets/AppIcon.appiconset/`. Nom affiché sous l'icône : **LUMA** (`CFBundleDisplayName`).
+
 ## Hors périmètre v1
 
 Journal de prises de vue, compteur de vues du rouleau, pose B et temps de pose longs (réciprocité), support multi-objectifs (la plage f/2.8–f/22 du 28mm est une constante ; prévoir la constante isolée dans `FM2.swift` pour la rendre configurable plus tard).

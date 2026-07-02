@@ -60,9 +60,13 @@ struct MeterView: View {
 
     private var header: some View {
         HStack {
-            Text("LUMA")
-                .font(.system(size: 15, weight: .heavy)).kerning(6)
-                .foregroundStyle(Theme.ink)
+            HStack(spacing: 8) {
+                LumaLogo()
+                    .frame(width: 20, height: 20)
+                Text("LUMA")
+                    .font(.system(size: 15, weight: .heavy)).kerning(6)
+                    .foregroundStyle(Theme.ink)
+            }
             Spacer()
             Button { showFilmPicker = true } label: {
                 HStack(spacing: 6) {
