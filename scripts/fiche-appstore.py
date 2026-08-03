@@ -49,7 +49,10 @@ BASE_WEB = "https://optimuskoala.github.io/Luma"
 URL_SUPPORT = f"{BASE_WEB}/support.html"
 URL_MARKETING = f"{BASE_WEB}/"
 URL_CONFIDENTIALITE = f"{BASE_WEB}/privacy.html"
-TYPE_CAPTURES = "APP_IPHONE_6_9"
+# L'API ne connaît pas de type « 6,9 pouces » : Apple a replié ce créneau dans
+# APP_IPHONE_67, qui accepte 1290×2796 comme 1320×2868. Un APP_IPHONE_6_9 est
+# rejeté en 409.
+TYPE_CAPTURES = "APP_IPHONE_67"
 
 SEC = "\033[32m"; ERR = "\033[31m"; GRAS = "\033[1m"; NEUTRE = "\033[0m"
 
@@ -95,13 +98,20 @@ JWT = ""
 
 
 def appel(methode: str, chemin: str, corps: dict | None = None,
-          brut: bytes | None = None, entetes: dict | None = None):
-    """Appel JSON:API. Renvoie le document décodé, ou None sur 204."""
+          brut: bytes | None = None, entetes: dict | None = None,
+          authentifie: bool = True):
+    """Appel JSON:API. Renvoie le document décodé, ou None sur 204.
+
+    `authentifie=False` pour les téléversements : leur URL est pré-signée
+    (X-Amz-Signature) et un en-tête Authorization en plus la fait rejeter
+    en 400 par le stockage d'objets d'Apple.
+    """
     url = chemin if chemin.startswith("http") else f"{API}/{chemin}"
     donnees = brut if brut is not None else (
         json.dumps(corps).encode() if corps is not None else None)
     requete = urllib.request.Request(url, data=donnees, method=methode)
-    requete.add_header("Authorization", f"Bearer {JWT}")
+    if authentifie:
+        requete.add_header("Authorization", f"Bearer {JWT}")
     if brut is None and corps is not None:
         requete.add_header("Content-Type", "application/json")
     for nom, valeur in (entetes or {}).items():
@@ -301,7 +311,7 @@ def captures(version: str) -> None:
                                  operation["offset"] + operation["length"]]
                 entetes = {e["name"]: e["value"] for e in operation["requestHeaders"]}
                 appel(operation["method"], operation["url"],
-                      brut=morceau, entetes=entetes)
+                      brut=morceau, entetes=entetes, authentifie=False)
 
             appel("PATCH", f"appScreenshots/{identifiant}", {"data": {
                 "type": "appScreenshots", "id": identifiant,

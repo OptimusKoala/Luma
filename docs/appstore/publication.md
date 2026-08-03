@@ -14,8 +14,8 @@ par Apple.
 | 3. ~~Publier les pages web~~ | github.com | ✅ fait |
 | 4. ~~Clé d'API App Store Connect~~ | App Store Connect | ✅ fait |
 | 5. ~~Créer la fiche de l'app~~ | App Store Connect | ✅ fait |
-| 6. Captures d'écran | ton iPhone + `scripts/screenshots.sh` | toi + script |
-| 7. Remplir la fiche | App Store Connect | toi (textes prêts) |
+| 6. ~~Captures d'écran~~ | `scripts/screenshots-simulateur.sh` | ✅ fait |
+| 7. Remplir la fiche | `scripts/fiche-appstore.py` | ✅ textes · 4 points restants |
 | 8. Envoyer le build | `scripts/release.sh` | script |
 | 9. Vérifier via TestFlight | ton iPhone | toi |
 | 10. Soumettre à la validation | App Store Connect | toi |
@@ -145,10 +145,35 @@ Pour mémoire, ce qui a été saisi :
 Reste à ajouter l'anglais : en haut de la page de la version, menu **Français
 (France)** → **Ajouter une langue** → **Anglais (É.-U.)**.
 
-## 6. Captures d'écran
+## 6. Captures d'écran — ✅ faites
 
-Le simulateur n'a pas de caméra : Luma y afficherait un viseur noir. Les captures
-se prennent donc sur ton iPhone, sur des scènes réelles.
+Cinq captures en **1320 × 2868** (taille native du simulateur iPhone 17 Pro Max,
+acceptée pour le créneau 6,9"), déjà téléversées sur la fiche :
+
+```bash
+./scripts/screenshots-simulateur.sh
+```
+
+Le simulateur n'a pas de caméra. Le viseur reçoit donc une scène **dessinée par
+code** — dégradés, horizon, masses floues — définie dans
+[`Luma/Views/ScreenshotMode.swift`](../../Luma/Views/ScreenshotMode.swift), sous
+`#if DEBUG` : rien de tout cela n'existe dans le binaire envoyé à Apple.
+
+Deux choix qui comptent :
+
+- **Aucune photographie.** Une capture App Store contenant une photo dont on n'a
+  pas les droits est un motif de retrait. Les scènes sont synthétiques, donc
+  libres.
+- **Les valeurs ne sont pas truquées.** Seul l'EV de la scène est injecté ; c'est
+  le vrai `ExposureCalculator` qui produit ouverture, vitesse et ISO. Les
+  chiffres visibles sont ceux que l'app calcule pour cette lumière.
+
+Les captures du simulateur portant un canal alpha qu'Apple refuse,
+`scripts/aplatir-png.swift` les redessine dans un contexte opaque.
+
+### Variante : de vraies scènes photographiées
+
+Pour remplacer les scènes dessinées par des photos prises sur ton iPhone :
 
 1. Ouvre Luma sur ton iPhone et fais tes captures (**bouton latéral + volume
    haut**). [`metadata.md`](metadata.md) §7 propose cinq scènes, dans l'ordre.
@@ -167,24 +192,37 @@ qu'Apple refuse. Résultat dans `docs/appstore/captures/6.9/`.
 Une seule série suffit : Apple la réduit automatiquement pour les autres tailles
 d'iPhone. Les captures en français conviennent aussi pour la fiche anglaise.
 
-## 7. Remplir la fiche
+## 7. Remplir la fiche — ✅ textes écrits, 4 points restants
 
-Tout le texte est prêt dans [`metadata.md`](metadata.md), déjà vérifié contre les
-limites de caractères d'Apple (`python3 scripts/check-metadata.py`). Sections à
-remplir :
+Les textes sont écrits automatiquement depuis [`metadata.md`](metadata.md), qui
+reste la source de vérité — corriger la fiche se fait dans ce Markdown, puis :
 
-- **Fiche française** puis **anglaise** : sous-titre, texte promotionnel,
-  mots-clés, description, captures d'écran.
-- **Informations générales** : catégories (Photo et vidéo / Utilitaires), droits
-  d'auteur, URL de support et de confidentialité.
-- **Confidentialité de l'app** → « Nous ne collectons aucune donnée » (§4 de
-  `metadata.md`, avec la justification).
-- **Classification par âge** → questionnaire tout à « Aucun » → 4+ (§5).
-- **Tarifs et disponibilité** → **Gratuit**, tous les pays. Une app gratuite sans
-  achat intégré ne demande **ni coordonnées bancaires ni formulaire fiscal**.
-- **Informations pour la validation** → coller les notes du §6 ; aucun identifiant
-  de test à fournir, l'app n'a pas de compte.
-- **Droits sur le contenu** → l'app ne contient aucun contenu de tiers.
+```bash
+ASC_KEY_ID=… ASC_ISSUER_ID=… ASC_KEY_PATH=… python3 scripts/fiche-appstore.py
+#                                                             … --dry-run
+```
+
+Déjà en place et vérifié côté Apple : nom et sous-titre (fr-FR, en-US),
+description, mots-clés, texte promotionnel, URL de support, marketing et
+confidentialité, catégories Photo et vidéo / Utilitaires, droits d'auteur, et
+les 5 captures dans les deux langues (état `COMPLETE`).
+
+> Le type de capture de l'API est `APP_IPHONE_67`, pas `APP_IPHONE_6_9` qui
+> n'existe pas : Apple a replié le créneau 6,9" dans le type historique 6,7".
+
+**Les quatre points que l'API ne couvre pas**, à faire dans l'interface :
+
+1. **Confidentialité de l'app** → « Nous ne collectons aucune donnée » (§4 de
+   `metadata.md`, avec la justification).
+2. **Classification par âge** → questionnaire tout à « Aucun » → 4+ (§5).
+3. **Tarifs et disponibilité** → **Gratuit**, tous les pays. Une app gratuite sans
+   achat intégré ne demande **ni coordonnées bancaires ni formulaire fiscal**.
+4. **Statut de professionnel** → voir ci-dessous.
+
+Deux champs facultatifs mais utiles, également manuels : les **informations pour
+la validation** (coller les notes du §6 de `metadata.md` ; aucun identifiant de
+test à fournir, l'app n'a pas de compte) et les **droits sur le contenu**
+(l'app ne contient aucun contenu de tiers).
 
 ### Statut de « professionnel » (obligatoire pour l'UE)
 
