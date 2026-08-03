@@ -11,7 +11,7 @@ par Apple.
 |---|---|---|
 | 1. Team ID et certificat de distribution | Xcode + developer.apple.com | toi |
 | 2. Identifiant d'app (App ID) | developer.apple.com | toi |
-| 3. Publier les pages web | github.com | toi |
+| 3. ~~Publier les pages web~~ | github.com | ✅ fait |
 | 4. Clé d'API App Store Connect | App Store Connect | toi |
 | 5. Créer la fiche de l'app | App Store Connect | toi |
 | 6. Captures d'écran | ton iPhone + `scripts/screenshots.sh` | toi + script |
@@ -59,20 +59,23 @@ L'accès à la caméra n'est pas une « capability » : il se déclare par la cl
 > Ce bundle ID est celui que tu utilises déjà sur ton iPhone : garde-le à
 > l'identique, sinon l'app publiée sera considérée comme une app différente.
 
-## 3. Publier les pages web
+## 3. Pages web — ✅ en ligne
 
-Apple exige une **URL de politique de confidentialité** publique, et une **URL
-de support** joignable. Les deux pages sont déjà écrites dans le dépôt
-(`docs/privacy.html`, `docs/support.html`) ; il reste à les mettre en ligne.
+Apple exige une **URL de politique de confidentialité** publique et une **URL de
+support** joignable. Les deux sont déjà en ligne, servies par GitHub Pages depuis
+la branche `main`, dossier `/docs` :
 
-1. Pousse la branche : `git push`.
-2. Sur GitHub : dépôt **Luma → Settings → Pages**.
-3. **Source** : `Deploy from a branch` · **Branch** : `main` · **Folder** :
-   `/docs` → **Save**.
-4. Attends 1 à 2 min, puis vérifie que les trois URL répondent :
-   - <https://optimuskoala.github.io/Luma/>
-   - <https://optimuskoala.github.io/Luma/privacy.html>
-   - <https://optimuskoala.github.io/Luma/support.html>
+- <https://optimuskoala.github.io/Luma/>
+- <https://optimuskoala.github.io/Luma/privacy.html>
+- <https://optimuskoala.github.io/Luma/support.html>
+
+Toute modification de ces fichiers est publiée par un simple `git push` ; compter
+une à deux minutes de reconstruction. Le fichier `docs/.nojekyll` sert les pages
+telles quelles, sans traitement Jekyll.
+
+> Pages n'est gratuit que sur un dépôt **public** : c'est la raison du passage du
+> dépôt en public le 2026-08-03. Si tu le repasses en privé, les trois URL
+> tombent — et la fiche App Store devient invalide.
 
 Ces pages affichent `contact@elitedangereuse.fr` comme adresse de support :
 vérifie qu'elle reçoit bien, c'est par là qu'Apple et les utilisateurs te
