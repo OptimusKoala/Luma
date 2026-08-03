@@ -166,7 +166,7 @@ xcodebuild -project Luma.xcodeproj -scheme Luma \
   -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
-**Installation sur l'iPhone** — app personnelle, jamais publiée sur l'App Store :
+**Installation directe sur l'iPhone**, sans passer par l'App Store :
 
 ```bash
 xcodebuild -project Luma.xcodeproj -scheme Luma \
@@ -174,6 +174,28 @@ xcodebuild -project Luma.xcodeproj -scheme Luma \
 xcrun devicectl device install app --device <UDID> <chemin/Luma.app>
 xcrun devicectl device process launch --device <UDID> com.michaelbernard69.Luma
 ```
+
+## Publication sur l'App Store
+
+Tout le nécessaire est versionné, textes de la fiche compris :
+
+| Fichier | Rôle |
+|---|---|
+| [docs/appstore/publication.md](docs/appstore/publication.md) | Marche à suivre en 10 étapes, de la clé d'API à la soumission |
+| [docs/appstore/metadata.md](docs/appstore/metadata.md) | Fiche FR + EN prête à coller, réponses aux questionnaires |
+| [docs/privacy.html](docs/privacy.html) · [docs/support.html](docs/support.html) | Les deux pages publiques exigées par Apple ([GitHub Pages](https://optimuskoala.github.io/Luma/)) |
+| [Luma/PrivacyInfo.xcprivacy](Luma/PrivacyInfo.xcprivacy) | Manifeste : aucune donnée collectée, `UserDefaults` déclaré (`CA92.1`) |
+
+```bash
+python3 scripts/check-metadata.py    # longueurs de la fiche vs limites d'Apple
+./scripts/screenshots.sh             # captures iPhone → 1290 × 2796 px (6,9")
+./scripts/release.sh --dry-run       # tests + archive + export + validation
+./scripts/release.sh --bump          # … puis envoi, après confirmation
+```
+
+`release.sh` refuse de partir si le `DEVELOPMENT_TEAM` de `project.yml` ne
+correspond pas au compte payant de `scripts/release.env` — le Team ID ne se
+règle qu'à un seul endroit.
 
 ## Bon à savoir
 
@@ -194,5 +216,5 @@ Journal de prises de vue · compteur de vues du rouleau · pose B et temps de po
 ---
 
 <div align="center">
-<sub>Projet personnel, jamais publié sur l'App Store · non affilié à Nikon · <a href="LICENSE">MIT</a></sub>
+<sub>Projet personnel · non affilié à Nikon · <a href="LICENSE">MIT</a></sub>
 </div>

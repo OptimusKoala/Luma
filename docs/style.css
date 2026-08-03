@@ -1,0 +1,167 @@
+/* Luma — « Chrome & cuir ». Palette identique à celle de l'app (Theme.swift). */
+
+:root {
+  --champagne-haut: #f5f2f0;
+  --champagne-bas: #dbd9d1;
+  --cuir: #1f1f1c;
+  --rouge: #bf382b;
+  --encre: #1a1a1a;
+  --creme: #f0ede6;
+  --trait: rgba(31, 31, 28, 0.14);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 0 1.25rem 5rem;
+  background: linear-gradient(180deg, var(--champagne-haut) 0%, var(--champagne-bas) 100%);
+  background-attachment: fixed;
+  color: var(--encre);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.page { max-width: 44rem; margin: 0 auto; }
+
+/* En-tête */
+
+header.masthead {
+  text-align: center;
+  padding: 3.5rem 0 2.5rem;
+}
+
+header.masthead img { width: 88px; height: 88px; }
+
+header.masthead h1 {
+  margin: 1.25rem 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+header.masthead p.baseline {
+  margin: 0;
+  color: rgba(26, 26, 26, 0.62);
+  font-size: 0.95rem;
+}
+
+/* Navigation */
+
+nav.top {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+nav.top a { color: rgba(26, 26, 26, 0.7); text-decoration: none; }
+nav.top a:hover, nav.top a[aria-current="page"] { color: var(--rouge); }
+nav.top a[aria-current="page"] { font-weight: 600; }
+
+/* Contenu */
+
+main { padding-top: 0.5rem; }
+
+h2 {
+  margin: 2.75rem 0 0.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--trait);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+h3 {
+  margin: 1.75rem 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+p, ul, ol { margin: 0 0 1rem; }
+ul, ol { padding-left: 1.35rem; }
+li { margin-bottom: 0.35rem; }
+
+a { color: var(--rouge); text-decoration: none; border-bottom: 1px solid rgba(191, 56, 43, 0.35); }
+a:hover { border-bottom-color: var(--rouge); }
+
+strong { font-weight: 600; }
+
+code {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: rgba(31, 31, 28, 0.07);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+}
+
+/* Encadré (avertissement, résumé) */
+
+.encart {
+  margin: 1.5rem 0;
+  padding: 1.1rem 1.25rem;
+  border-left: 3px solid var(--rouge);
+  border-radius: 0 8px 8px 0;
+  background: rgba(240, 237, 230, 0.75);
+}
+
+.encart p:last-child { margin-bottom: 0; }
+
+/* Bandeau de langue */
+
+.langue {
+  margin: 2.5rem 0 0;
+  padding: 0.6rem 0 0;
+  border-top: 1px solid var(--trait);
+  color: rgba(26, 26, 26, 0.55);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Pied de page */
+
+footer {
+  max-width: 44rem;
+  margin: 4rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--trait);
+  color: rgba(26, 26, 26, 0.52);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+footer a { color: inherit; border-bottom-color: rgba(26, 26, 26, 0.2); }
+
+/* Table (compatibilité matériel) */
+
+table {
+  width: 100%;
+  margin: 0 0 1.25rem;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th, td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--trait);
+  text-align: left;
+  vertical-align: top;
+}
+
+th { font-weight: 600; }
+
+.defile { overflow-x: auto; }
+
+@media (max-width: 30rem) {
+  body { font-size: 16px; }
+  nav.top { gap: 1rem; font-size: 0.78rem; }
+  header.masthead { padding-top: 2.5rem; }
+}

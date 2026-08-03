@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Luma · Light Meter — posemètre pour appareils argentiques</title>
+<meta name="description" content="Luma mesure la lumière avec la caméra de l'iPhone et affiche l'ouverture, la vitesse et l'ISO à reporter sur un Nikon FM2." />
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" href="logo.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<div class="page">
+
+<header class="masthead">
+  <img src="logo.svg" alt="Logo Luma : iris de diaphragme à sept lamelles" />
+  <h1>Luma</h1>
+  <p class="baseline">Posemètre iOS pour appareils argentiques à réglage manuel</p>
+</header>
+
+<nav class="top">
+  <a href="index.html" aria-current="page">Accueil</a>
+  <a href="support.html">Support</a>
+  <a href="privacy.html">Confidentialité</a>
+  <a href="https://github.com/OptimusKoala/Luma">Code source</a>
+</nav>
+
+<main>
+
+<h2>Une question, une réponse</h2>
+
+<p>Un boîtier mécanique ne pardonne pas une erreur d'exposition : sur un rouleau de 36 poses, on ne voit ses ratés qu'au développement. Luma répond à la seule question qui compte au moment de déclencher :</p>
+
+<div class="encart">
+  <p><strong>Quelle ouverture, quelle vitesse, pour cette scène et cette pellicule ?</strong></p>
+</div>
+
+<p>Pas de journal de prises, pas de compteur de vues, pas de réglages cachés. Un écran, trois valeurs.</p>
+
+<h2>Ce que fait l'app</h2>
+
+<ul>
+  <li><strong>Mesure en direct</strong> la lumière de la scène en lisant l'autoexposition de la caméra, et l'affiche en EV normalisé ISO 100.</li>
+  <li><strong>Recommande</strong> une seule configuration ouverture / vitesse, choisie pour rester nette à main levée.</li>
+  <li><strong>Laisse explorer</strong> les paires équivalentes à la molette, avec un retour haptique en cliquet comme le barillet du boîtier.</li>
+  <li><strong>Mesure spot</strong> : un toucher dans le viseur place le cercle de mesure sur le sujet.</li>
+  <li><strong>Refuse de mentir</strong> : si la scène sort de la plage du boîtier, elle le dit au lieu d'afficher une valeur fausse.</li>
+  <li><strong>Explique</strong> en une phrase l'effet de l'ouverture et de la vitesse affichées.</li>
+</ul>
+
+<h2>Compatibilité</h2>
+
+<p>Luma est calibrée pour un <strong>Nikon FM2 équipé d'un Nikkor 28 mm f/2.8</strong> — les vitesses et les ouvertures proposées sont celles de ce couple. Elle rend service sur tout boîtier partageant cette plage (vitesses de 1 s à 1/4000 s, ouvertures de f/2.8 à f/22), à condition de reporter les valeurs sur les crans réellement présents sur votre matériel.</p>
+
+<p>Luma est un projet indépendant, <strong>non affilié à Nikon</strong>. « Nikon », « FM2 » et « Nikkor » sont des marques de Nikon Corporation, citées ici à seule fin de décrire la compatibilité.</p>
+
+<div class="encart">
+  <p>Luma est une aide, pas une garantie. Avant de lui confier un rouleau, comparez ses recommandations à celles d'un posemètre de référence sur quelques scènes.</p>
+</div>
+
+<h2>Configuration requise</h2>
+
+<p>iPhone sous iOS 17 ou plus récent, avec caméra arrière. L'app fonctionne entièrement hors ligne.</p>
+
+<p class="langue">English version below.</p>
+
+<h2>Luma · Light Meter (English)</h2>
+
+<p>Luma is a light meter for manual film cameras. It reads the scene through your iPhone's camera and shows the three values to dial in on the body: <strong>aperture, shutter speed, film ISO</strong>.</p>
+
+<ul>
+  <li>Live metering, displayed as an ISO 100 normalised EV.</li>
+  <li>One recommended aperture / shutter pair, biased toward staying sharp handheld.</li>
+  <li>A haptic dial to explore equivalent exposure pairs.</li>
+  <li>Spot metering: tap the viewfinder to place the metering circle on your subject.</li>
+  <li>An explicit out-of-range message instead of a wrong reading.</li>
+</ul>
+
+<p>Calibrated for a <strong>Nikon FM2 with a 28 mm f/2.8 lens</strong> (1 s – 1/4000 s, f/2.8 – f/22). Independent project, <strong>not affiliated with Nikon</strong>; trademarks are used only to describe compatibility. Luma is an aid, not a guarantee — cross-check it against a reference meter before trusting it with a roll. Requires iOS 17 or later. Works fully offline; the app interface is in French.</p>
+
+</main>
+
+<footer>
+  <p>Luma — projet personnel de Michaël Bernard · <a href="https://github.com/OptimusKoala/Luma">code source sous licence MIT</a><br />
+  <a href="support.html">Support</a> · <a href="privacy.html">Confidentialité</a></p>
+</footer>
+
+</div>
+
+</body>
+</html>

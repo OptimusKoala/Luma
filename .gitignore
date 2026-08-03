@@ -2,3 +2,6 @@
 .DS_Store
 Luma.xcodeproj/
 DerivedData/
+build/
+scripts/release.env
+docs/appstore/captures/brutes/

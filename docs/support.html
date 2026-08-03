@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Support — Luma · Light Meter</title>
+<meta name="description" content="Aide, questions fréquentes et contact pour l'application Luma, posemètre iOS pour appareils argentiques." />
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" href="logo.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<div class="page">
+
+<header class="masthead">
+  <img src="logo.svg" alt="Logo Luma : iris de diaphragme à sept lamelles" />
+  <h1>Luma</h1>
+  <p class="baseline">Support et questions fréquentes</p>
+</header>
+
+<nav class="top">
+  <a href="index.html">Accueil</a>
+  <a href="support.html" aria-current="page">Support</a>
+  <a href="privacy.html">Confidentialité</a>
+</nav>
+
+<main>
+
+<h2>Prise en main</h2>
+
+<ol>
+  <li><strong>Choisis ta pellicule.</strong> Appuie sur le badge en haut de l'écran pour ouvrir la liste, ou saisis un ISO au clavier si ton film n'y est pas.</li>
+  <li><strong>Cadre la scène</strong> avec l'iPhone, comme tu la cadreras avec ton boîtier. L'EV mesuré s'affiche dans le viseur.</li>
+  <li><strong>Lis les trois valeurs</strong> en bas : ouverture, vitesse (en rouge) et ISO du film. Reporte-les sur ton appareil.</li>
+  <li><strong>Besoin d'autre chose ?</strong> Fais glisser la molette : toutes les paires ouverture/vitesse donnant la même exposition défilent, avec un cliquet haptique. Choisis-en une pour privilégier le flou d'arrière-plan ou figer un mouvement.</li>
+</ol>
+
+<h3>Mesure moyenne ou mesure spot</h3>
+
+<p>Par défaut, Luma mesure l'ensemble du cadre (<em>MESURE MOYENNE</em>). Pour mesurer un sujet précis — un visage en contre-jour, par exemple —, touche-le dans le viseur : un cercle s'y place et le mode passe en <em>MESURE SPOT</em>. Touche ailleurs pour déplacer le cercle, ou touche le cercle lui-même pour revenir en mesure moyenne.</p>
+
+<h2>Questions fréquentes</h2>
+
+<h3>Pourquoi l'app demande-t-elle l'accès à la caméra ?</h3>
+
+<p>La caméra <em>est</em> le posemètre : Luma déduit la luminosité de la scène des réglages d'exposition que l'iPhone choisit automatiquement. Sans cet accès, aucune mesure n'est possible. Aucune photo n'est enregistrée ni transmise — voir la <a href="privacy.html">politique de confidentialité</a>.</p>
+
+<p>Si tu as refusé par erreur : <em>Réglages → Luma → Appareil photo</em>, puis relance l'app.</p>
+
+<h3>L'app affiche « Trop sombre » ou « Trop lumineux ». Pourquoi aucune valeur ?</h3>
+
+<p>Parce qu'aucun réglage du boîtier ne conviendrait, et qu'afficher une valeur fausse serait pire que ne rien afficher.</p>
+
+<ul>
+  <li><strong>Trop sombre</strong> — même f/2.8 à 1 s sous-exposerait. Il faut plus de lumière, un film plus sensible, ou un trépied avec la pose B (hors périmètre de l'app).</li>
+  <li><strong>Trop lumineux</strong> — même f/22 à 1/4000 s surexposerait. Il faut un film moins sensible ou un filtre ND.</li>
+</ul>
+
+<h3>Pourquoi Luma propose-t-elle souvent 1/125 et f/5.6 – f/8 ?</h3>
+
+<p>C'est volontaire. À règle égale, Luma privilégie d'abord une vitesse d'au moins 1/125 s — marge confortable contre le flou de bougé avec un 28 mm à main levée —, puis une ouverture entre f/5.6 et f/8, là où l'objectif est le plus piqué. Si la lumière manque, elle ouvre le diaphragme avant de descendre sous 1/125 s.</p>
+
+<h3>Les valeurs de Luma diffèrent de celles de mon posemètre. Qui a raison ?</h3>
+
+<p>Un écart d'un demi-cran est normal : la cellule de l'iPhone ne voit pas exactement le même champ que ton boîtier, et le rendu « correct » d'une scène contrastée reste un choix d'auteur. Luma est une <strong>aide</strong>, pas une référence de laboratoire. Avant de lui confier un rouleau, compare ses recommandations à celles d'un posemètre de référence sur quelques scènes — et en cas de doute sur une scène difficile, fais deux vues à un cran d'écart.</p>
+
+<h3>Mon appareil n'est pas un Nikon FM2. Puis-je l'utiliser ?</h3>
+
+<p>Oui, si sa plage est proche : vitesses de 1 s à 1/4000 s, ouvertures de f/2.8 à f/22. Luma raisonne en crans entiers et affiche des valeurs standard, qu'il te suffit de reporter sur les graduations réellement présentes sur ton matériel. Si ton objectif ouvre moins (f/3.5, par exemple), ignore simplement les propositions à f/2.8.</p>
+
+<h3>Ma pellicule n'est pas dans la liste.</h3>
+
+<p>Choisis <em>ISO manuel</em> et saisis sa sensibilité : c'est la seule valeur dont le calcul a besoin. La liste intégrée couvre Portra 160/400/800, Ektar 100, Gold 200, UltraMax 400, HP5+ 400, Tri-X 400, Delta 100/400 et Fomapan 100/400.</p>
+
+<h3>Peut-on pousser ou retenir un film (push / pull) ?</h3>
+
+<p>Oui, indirectement : saisis l'ISO auquel tu exposes réellement. Un Tri-X 400 poussé à 1600 se règle en saisissant 1600 — et se développe en conséquence.</p>
+
+<h3>La pellicule choisie est-elle mémorisée ?</h3>
+
+<p>Oui, elle reste chargée entre deux lancements, le temps du rouleau. C'est la seule chose que l'app enregistre.</p>
+
+<h3>Luma fonctionne-t-elle sans réseau ?</h3>
+
+<p>Entièrement. L'app n'a aucune fonction réseau, en mode avion comme au fond d'un vallon.</p>
+
+<h3>Y a-t-il un journal de prises de vue ?</h3>
+
+<p>Non, pas dans cette version : Luma répond à une question au moment de déclencher, et rien de plus. Si un carnet de rouleaux te manque, dis-le — c'est le genre de retour qui décide de la suite.</p>
+
+<h2>Signaler un bug, proposer une idée</h2>
+
+<p>Deux voies, au choix :</p>
+
+<ul>
+  <li><strong>E-mail</strong> : <a href="mailto:contact@elitedangereuse.fr">contact@elitedangereuse.fr</a></li>
+  <li><strong>GitHub</strong> : <a href="https://github.com/OptimusKoala/Luma/issues">ouvrir une issue</a> (le code source de Luma est public, sous licence MIT)</li>
+</ul>
+
+<p>Pour un bug, ces trois précisions font gagner beaucoup de temps : le modèle d'iPhone et la version d'iOS, la pellicule sélectionnée, et ce que l'app affichait au lieu de ce que tu attendais. Réponse sous quelques jours — Luma est un projet personnel, pas une entreprise.</p>
+
+<p class="langue">English version below.</p>
+
+<h2>Support (English)</h2>
+
+<p><strong>Note:</strong> the app's interface is in French only.</p>
+
+<h3>Getting started</h3>
+
+<ol>
+  <li>Tap the badge at the top to pick your film stock, or enter an ISO manually.</li>
+  <li>Frame the scene with your iPhone; the measured EV appears in the viewfinder.</li>
+  <li>Read the three values at the bottom — aperture, shutter speed (in red), film ISO — and dial them in on your camera.</li>
+  <li>Drag the dial to browse every equivalent aperture / shutter pair, with haptic clicks.</li>
+</ol>
+
+<h3>Average vs. spot metering</h3>
+
+<p>Luma meters the whole frame by default (<em>MESURE MOYENNE</em>). Tap a subject in the viewfinder to place the spot circle there (<em>MESURE SPOT</em>); tap elsewhere to move it, or tap the circle itself to go back to average metering.</p>
+
+<h3>Common questions</h3>
+
+<ul>
+  <li><strong>Why does it need the camera?</strong> The camera is the light sensor. Nothing is recorded or transmitted — see the <a href="privacy.html">privacy policy</a>. If you denied access: <em>Settings → Luma → Camera</em>.</li>
+  <li><strong>“Trop sombre” / “Trop lumineux” with no values?</strong> The scene falls outside the body's range (darker than f/2.8 at 1 s, or brighter than f/22 at 1/4000 s). Showing a wrong reading would be worse than showing none.</li>
+  <li><strong>Why 1/125 and f/5.6 – f/8 so often?</strong> Luma favours a shutter speed of at least 1/125 s for handheld sharpness, then f/5.6 – f/8 where the lens is sharpest.</li>
+  <li><strong>It disagrees with my meter.</strong> Half a stop of difference is normal; the iPhone doesn't see quite the same field. Luma is an aid, not a lab reference — bracket when a scene is tricky.</li>
+  <li><strong>Other cameras?</strong> Fine, as long as the range is close (1 s – 1/4000 s, f/2.8 – f/22). Ignore any value your gear doesn't have.</li>
+  <li><strong>Film not listed?</strong> Choose manual ISO and type the speed you actually expose at — that also covers pushing and pulling.</li>
+  <li><strong>Offline?</strong> Always. The app has no networking at all.</li>
+</ul>
+
+<h3>Contact</h3>
+
+<p>Bugs and ideas: <a href="mailto:contact@elitedangereuse.fr">contact@elitedangereuse.fr</a> or a <a href="https://github.com/OptimusKoala/Luma/issues">GitHub issue</a>. Please include your iPhone model and iOS version, the selected film stock, and what you saw instead of what you expected. Expect a reply within a few days — Luma is a personal project.</p>
+
+</main>
+
+<footer>
+  <p>Luma — projet personnel de Michaël Bernard · <a href="https://github.com/OptimusKoala/Luma">code source sous licence MIT</a><br />
+  <a href="index.html">Accueil</a> · <a href="privacy.html">Confidentialité</a></p>
+</footer>
+
+</div>
+
+</body>
+</html>
