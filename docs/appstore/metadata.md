@@ -12,7 +12,8 @@ sont indiquées entre parenthèses ; les longueurs réelles sont vérifiables av
 |---|---|
 | **Nom de l'app** (30) | `Luma · Light Meter` |
 | **Bundle ID** | `com.michaelbernard69.Luma` |
-| **SKU** | `LUMA-IOS-001` |
+| **SKU** | `luma` |
+| **Identifiant de l'app** | `6797508721` |
 | **Langue principale** | Français (France) |
 | **Catégorie principale** | Photo et vidéo |
 | **Catégorie secondaire** | Utilitaires |

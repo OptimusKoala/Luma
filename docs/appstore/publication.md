@@ -9,11 +9,11 @@ par Apple.
 
 | Étape | Où | Fait par |
 |---|---|---|
-| 1. Team ID ✅ · certificat de distribution | Xcode | toi |
-| 2. Identifiant d'app (App ID) | developer.apple.com | toi |
+| 1. ~~Team ID · certificat · profil~~ | Xcode | ✅ fait |
+| 2. ~~Identifiant d'app (App ID)~~ | developer.apple.com | ✅ fait |
 | 3. ~~Publier les pages web~~ | github.com | ✅ fait |
-| 4. Clé d'API App Store Connect | App Store Connect | toi |
-| 5. Créer la fiche de l'app | App Store Connect | toi |
+| 4. ~~Clé d'API App Store Connect~~ | App Store Connect | ✅ fait |
+| 5. ~~Créer la fiche de l'app~~ | App Store Connect | ✅ fait |
 | 6. Captures d'écran | ton iPhone + `scripts/screenshots.sh` | toi + script |
 | 7. Remplir la fiche | App Store Connect | toi (textes prêts) |
 | 8. Envoyer le build | `scripts/release.sh` | script |
@@ -22,64 +22,58 @@ par Apple.
 
 ---
 
-## 1. Team ID ✅ et certificat de distribution
+## 1. Team ID, certificat, profil — ✅ en place
 
-Le Team ID du compte payant, **`AXVF69V3LL`**, est déjà en place dans
-[`project.yml`](../../project.yml) — c'est le seul endroit du projet qui le porte,
-et `scripts/release.sh` refuse de démarrer si `release.env` ne dit pas la même
-chose.
+| | |
+|---|---|
+| Team ID | `AXVF69V3LL` (L'ELITE DANGEREUSE), dans [`project.yml`](../../project.yml) |
+| Certificat | `Apple Distribution: L'ELITE DANGEREUSE`, expire le 2027-08-03 |
+| Profil | `Luma App Store` (`IOS_APP_STORE`), expire le 2027-08-03 |
 
-**Il reste le certificat de distribution.** Cette équipe est pour l'instant
-inconnue de ce Mac : ni certificat, ni profil de provisionnement. Dans Xcode :
-
-1. **Xcode → Settings → Accounts** : ajoute l'Apple ID du compte payant s'il n'y
-   figure pas (mot de passe + double authentification, donc à faire toi-même).
-2. Sélectionne l'équipe `AXVF69V3LL`, puis **Manage Certificates → + → Apple
-   Distribution**.
-
-C'est le certificat qui signe les builds destinés à l'App Store ; sans lui,
-l'étape d'archive échoue. `release.sh` prévient dès le départ s'il ne le trouve
-pas — en simple avertissement, parce que la signature automatique sait aussi
-utiliser un certificat géré par Apple dans le nuage.
+Le Team ID ne figure qu'à un seul endroit du projet, et `scripts/release.sh`
+refuse de démarrer si la configuration d'envoi ne dit pas la même chose.
 
 > Le compte payant supprime au passage la limite des 7 jours : une app installée
 > depuis Xcode reste valide un an au lieu d'expirer chaque semaine.
 
-### Enregistrer au moins un appareil dans l'équipe
+### Signature de la configuration Release ✅
 
-Contre-intuitif mais nécessaire : avec la signature automatique, l'archive est
-d'abord signée **en développement**, et c'est `xcodebuild -exportArchive` qui la
-resigne ensuite en distribution. Or un profil de développement ne peut pas être
-créé si l'équipe ne contient aucun appareil — Xcode répond alors :
+Release ne passe **pas** par la signature automatique, et c'est volontaire.
+En automatique, Xcode signe l'archive en *développement* avant que
+`exportArchive` la resigne en distribution ; or un profil de développement exige
+au moins un appareil enregistré dans l'équipe, et la nôtre n'en a aucun :
 
 ```
 Your team has no devices from which to generate a provisioning profile.
 ```
 
-Il suffit de brancher l'iPhone **déverrouillé** au Mac et d'ouvrir Xcode une
-fois : il enregistre l'appareil dans l'équipe sélectionnée. Sinon, ajouter son
-UDID à la main dans **Devices** sur developer.apple.com.
+Un profil **App Store**, lui, n'en demande aucun. Le profil `Luma App Store`
+(type `IOS_APP_STORE`, expire le **2027-08-03**) a donc été créé dans le compte
+et installé localement, et `project.yml` fixe pour Release :
 
-C'est à faire une seule fois par équipe, et c'est de toute façon nécessaire pour
-installer des builds de développement. TestFlight, lui, n'en a pas besoin.
+```yaml
+CODE_SIGN_STYLE: Manual
+CODE_SIGN_IDENTITY: Apple Distribution
+PROVISIONING_PROFILE_SPECIFIER: Luma App Store
+```
 
-## 2. Identifiant d'app (App ID)
+Debug reste en automatique. Conséquence : les publications ne dépendent pas d'un
+iPhone branché. En revanche, **installer un build de développement sur ton
+iPhone exigera d'enregistrer l'appareil** dans la nouvelle équipe — branche-le
+déverrouillé et ouvre Xcode une fois. TestFlight, lui, n'en a pas besoin.
 
-<https://developer.apple.com/account/resources/identifiers/list>
+> Au renouvellement du profil, en août 2027 : le recréer dans
+> developer.apple.com → Profiles **en conservant le nom exact**, sinon Release
+> ne trouve plus rien à quoi se référer.
 
-**+** → **App IDs** → **App** → puis :
+## 2. Identifiant d'app (App ID) — ✅ enregistré
 
-| Champ | Valeur |
-|---|---|
-| Description | `Luma` |
-| Bundle ID | **Explicit** → `com.michaelbernard69.Luma` |
-| Capabilities | aucune à cocher |
-
-L'accès à la caméra n'est pas une « capability » : il se déclare par la clé
+`com.michaelbernard69.Luma`, décrit « Light meter iOS app for Nikon FM2 ».
+Aucune *capability* n'est nécessaire : l'accès à la caméra se déclare par la clé
 `NSCameraUsageDescription` de l'`Info.plist`, déjà en place.
 
-> Ce bundle ID est celui que tu utilises déjà sur ton iPhone : garde-le à
-> l'identique, sinon l'app publiée sera considérée comme une app différente.
+> C'est le bundle ID que tu utilises déjà sur ton iPhone. Ne le change jamais :
+> l'app publiée serait considérée comme une app différente.
 
 ## 3. Pages web — ✅ en ligne
 
@@ -103,10 +97,12 @@ Ces pages affichent `contact@elitedangereuse.fr` comme adresse de support :
 vérifie qu'elle reçoit bien, c'est par là qu'Apple et les utilisateurs te
 joindront. Pour la changer, elle apparaît deux fois dans chacune des deux pages.
 
-## 4. Clé d'API App Store Connect
+## 4. Clé d'API App Store Connect — ✅ créée
 
-Elle permet à `scripts/release.sh` d'envoyer le build sans passer par l'interface
-de Xcode.
+Clé `HY575WBU5S`, rôle gestionnaire d'app, authentification vérifiée contre
+l'API. Le `.p8` est hors du dépôt, en `chmod 600`.
+
+Pour en recréer une un jour :
 
 1. <https://appstoreconnect.apple.com> → **Utilisateurs et accès** →
    **Intégrations** → **App Store Connect API** → onglet **Clés d'équipe**.
@@ -128,9 +124,14 @@ de Xcode.
    Puis ouvre `scripts/release.env` et remplis les quatre valeurs. Ce fichier est
    gitignoré : il ne partira jamais sur GitHub.
 
-## 5. Créer la fiche de l'app
+Si tu préfères ne rien écrire sur le disque, les quatre variables peuvent aussi
+être passées à `release.sh` par l'environnement — voir `./scripts/release.sh --help`.
 
-App Store Connect → **Apps** → **+** → **Nouvelle app** :
+## 5. Créer la fiche de l'app — ✅ créée
+
+App `6797508721` — <https://appstoreconnect.apple.com/apps/6797508721>
+
+Pour mémoire, ce qui a été saisi :
 
 | Champ | Valeur |
 |---|---|
@@ -138,13 +139,10 @@ App Store Connect → **Apps** → **+** → **Nouvelle app** :
 | Nom | `Luma · Light Meter` |
 | Langue principale | Français (France) |
 | Bundle ID | `com.michaelbernard69.Luma` |
-| SKU | `LUMA-IOS-001` |
+| SKU | `luma` |
 | Accès utilisateur | Accès complet |
 
-Si le nom est refusé comme déjà pris, [`metadata.md`](metadata.md) propose des
-replis dans l'ordre. Le nom n'est réservé qu'au moment de cette création.
-
-Ensuite, ajoute l'anglais : en haut de la page de la version, menu **Français
+Reste à ajouter l'anglais : en haut de la page de la version, menu **Français
 (France)** → **Ajouter une langue** → **Anglais (É.-U.)**.
 
 ## 6. Captures d'écran

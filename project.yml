@@ -8,7 +8,6 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    TARGETED_DEVICE_FAMILY: "1"
     CODE_SIGN_STYLE: Automatic
     # Team ID du compte Apple Developer payant. Le remplacer ici et nulle part
     # ailleurs (voir docs/appstore/publication.md, étape 1).
@@ -24,12 +23,30 @@ targets:
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        # Ne PAS forcer CODE_SIGN_IDENTITY ici : avec CODE_SIGN_STYLE=Automatic,
-        # Xcode refuse une identité imposée (« conflicting provisioning
-        # settings »). L'archive se signe en développement, puis
-        # `xcodebuild -exportArchive` la resigne en distribution — c'est le
-        # fonctionnement normal, et ça exige un profil de développement, donc
-        # au moins un appareil enregistré dans l'équipe.
+        # iPhone uniquement. À déclarer ICI et pas au niveau projet, où le
+        # défaut de la cible (« 1,2 ») l'écrase : l'app se retrouvait alors
+        # à annoncer l'iPad, et la validation Apple la refusait (erreur 90474
+        # — une app iPad doit accepter les quatre orientations pour le
+        # multitâche, ce qui n'a aucun sens pour un posemètre tenu en portrait).
+        TARGETED_DEVICE_FAMILY: "1"
+      configs:
+        # Debug hérite de CODE_SIGN_STYLE=Automatic : Xcode gère seul les
+        # profils de développement pour installer sur un appareil.
+        #
+        # Release signe manuellement avec le profil « Luma App Store »
+        # (type IOS_APP_STORE, créé dans le compte développeur). Pourquoi ne
+        # pas laisser l'automatique ici : il ferait signer l'archive en
+        # développement, ce qui réclame un profil de développement, lequel
+        # exige au moins un appareil enregistré dans l'équipe. Le profil
+        # App Store, lui, n'en demande aucun — l'archive part donc d'un Mac
+        # sans iPhone branché.
+        #
+        # Le profil expire le 2027-08-03 : le renouveler alors dans
+        # developer.apple.com → Profiles, en conservant ce nom exact.
+        Release:
+          CODE_SIGN_STYLE: Manual
+          CODE_SIGN_IDENTITY: Apple Distribution
+          PROVISIONING_PROFILE_SPECIFIER: Luma App Store
     info:
       path: Luma/Info.plist
       properties:

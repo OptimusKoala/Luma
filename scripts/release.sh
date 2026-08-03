@@ -195,7 +195,13 @@ cat > "$options" <<PLIST
 </plist>
 PLIST
 
-xcodebuild -exportArchive \
+# /usr/bin d'abord : l'empaquetage du .ipa passe par rsync, et Xcode ne sait
+# pas dialoguer avec le rsync 3.x de Homebrew — il échoue sur un « Copy failed »
+# opaque, dont la cause n'apparaît que dans les logs de distribution
+# (« rsync error: syntax or usage error ... [server=3.4.4] »). L'openrsync
+# d'Apple, en /usr/bin, fonctionne. Les chemins Homebrew restent accessibles
+# ensuite, donc xcodegen et les autres outils ne bougent pas.
+PATH="/usr/bin:/bin:$PATH" xcodebuild -exportArchive \
   -archivePath "$ARCHIVE" \
   -exportOptionsPlist "$options" \
   -exportPath "$EXPORT" \
