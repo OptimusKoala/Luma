@@ -45,6 +45,24 @@ utiliser un certificat géré par Apple dans le nuage.
 > Le compte payant supprime au passage la limite des 7 jours : une app installée
 > depuis Xcode reste valide un an au lieu d'expirer chaque semaine.
 
+### Enregistrer au moins un appareil dans l'équipe
+
+Contre-intuitif mais nécessaire : avec la signature automatique, l'archive est
+d'abord signée **en développement**, et c'est `xcodebuild -exportArchive` qui la
+resigne ensuite en distribution. Or un profil de développement ne peut pas être
+créé si l'équipe ne contient aucun appareil — Xcode répond alors :
+
+```
+Your team has no devices from which to generate a provisioning profile.
+```
+
+Il suffit de brancher l'iPhone **déverrouillé** au Mac et d'ouvrir Xcode une
+fois : il enregistre l'appareil dans l'équipe sélectionnée. Sinon, ajouter son
+UDID à la main dans **Devices** sur developer.apple.com.
+
+C'est à faire une seule fois par équipe, et c'est de toute façon nécessaire pour
+installer des builds de développement. TestFlight, lui, n'en a pas besoin.
+
 ## 2. Identifiant d'app (App ID)
 
 <https://developer.apple.com/account/resources/identifiers/list>

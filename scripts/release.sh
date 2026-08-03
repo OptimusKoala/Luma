@@ -48,22 +48,29 @@ cd "$RACINE"
 
 etape "Vérification de la configuration"
 
-if [[ ! -f scripts/release.env ]]; then
-  echec "scripts/release.env est absent." \
-    "cp scripts/release.env.example scripts/release.env" \
-    "puis remplis-le — voir docs/appstore/publication.md, étapes 1 et 4."
+# Deux voies : le fichier release.env (pratique, mais l'Issuer ID se retrouve
+# sur le disque), ou les quatre variables passées dans l'environnement (rien
+# n'est écrit nulle part). L'environnement l'emporte sur le fichier.
+if [[ -f scripts/release.env ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  source scripts/release.env
+  set +a
 fi
 
-set -a
-# shellcheck source=/dev/null
-source scripts/release.env
-set +a
-
+manquantes=()
 for variable in LUMA_TEAM_ID ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_PATH; do
-  if [[ -z "${!variable:-}" ]]; then
-    echec "$variable n'est pas défini dans scripts/release.env"
-  fi
+  [[ -z "${!variable:-}" ]] && manquantes+=("$variable")
 done
+
+if [[ ${#manquantes[@]} -gt 0 ]]; then
+  echec "Configuration incomplète : ${manquantes[*]}" \
+    "Soit tu crées le fichier :" \
+    "  cp scripts/release.env.example scripts/release.env  (puis remplis-le)" \
+    "soit tu passes les variables sans rien écrire sur le disque :" \
+    "  LUMA_TEAM_ID=… ASC_KEY_ID=… ASC_ISSUER_ID=… ASC_KEY_PATH=… $0 $*" \
+    "Voir docs/appstore/publication.md, étapes 1 et 4."
+fi
 
 if [[ "$LUMA_TEAM_ID" == "$TEAM_PERSONNELLE" ]]; then
   echec "LUMA_TEAM_ID vaut encore le Team ID du compte gratuit." \

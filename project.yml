@@ -24,6 +24,12 @@ targets:
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # Ne PAS forcer CODE_SIGN_IDENTITY ici : avec CODE_SIGN_STYLE=Automatic,
+        # Xcode refuse une identité imposée (« conflicting provisioning
+        # settings »). L'archive se signe en développement, puis
+        # `xcodebuild -exportArchive` la resigne en distribution — c'est le
+        # fonctionnement normal, et ça exige un profil de développement, donc
+        # au moins un appareil enregistré dans l'équipe.
     info:
       path: Luma/Info.plist
       properties:
