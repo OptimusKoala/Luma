@@ -90,6 +90,15 @@ command -v xcodegen >/dev/null || echec "xcodegen est absent (brew install xcode
 
 vert "✓ team $LUMA_TEAM_ID · clé ${ASC_KEY_ID}"
 
+# Simple avertissement, pas un blocage : avec la signature automatique, Xcode
+# sait aussi utiliser un certificat géré dans le nuage, sans copie locale.
+if ! security find-identity -v -p codesigning 2>/dev/null | grep -q 'Apple Distribution'; then
+  printf '\033[33m! aucun certificat « Apple Distribution » local\033[0m\n'
+  echo "  Si l'archive échoue plus bas, c'est très probablement la cause :"
+  echo "  Xcode → Settings → Accounts → ton équipe → Manage Certificates"
+  echo "  → + → Apple Distribution."
+fi
+
 # ── 2. Numéro de build ───────────────────────────────────────────────────────
 
 if [[ $bump -eq 1 ]]; then

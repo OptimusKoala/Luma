@@ -12,7 +12,7 @@ settings:
     CODE_SIGN_STYLE: Automatic
     # Team ID du compte Apple Developer payant. Le remplacer ici et nulle part
     # ailleurs (voir docs/appstore/publication.md, étape 1).
-    DEVELOPMENT_TEAM: SJVC6ZJ4VT
+    DEVELOPMENT_TEAM: AXVF69V3LL
     # Version publique (App Store) et numéro de build (unique par envoi).
     MARKETING_VERSION: "1.0"
     CURRENT_PROJECT_VERSION: "1"

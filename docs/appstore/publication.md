@@ -9,7 +9,7 @@ par Apple.
 
 | Étape | Où | Fait par |
 |---|---|---|
-| 1. Team ID et certificat de distribution | Xcode + developer.apple.com | toi |
+| 1. Team ID ✅ · certificat de distribution | Xcode | toi |
 | 2. Identifiant d'app (App ID) | developer.apple.com | toi |
 | 3. ~~Publier les pages web~~ | github.com | ✅ fait |
 | 4. Clé d'API App Store Connect | App Store Connect | toi |
@@ -22,21 +22,25 @@ par Apple.
 
 ---
 
-## 1. Team ID et certificat de distribution
+## 1. Team ID ✅ et certificat de distribution
 
-Le compte gratuit (Personal Team `SJVC6ZJ4VT`) ne peut pas publier. Il faut
-passer le projet sur le Team ID du compte payant.
+Le Team ID du compte payant, **`AXVF69V3LL`**, est déjà en place dans
+[`project.yml`](../../project.yml) — c'est le seul endroit du projet qui le porte,
+et `scripts/release.sh` refuse de démarrer si `release.env` ne dit pas la même
+chose.
 
-1. Ouvre <https://developer.apple.com/account> avec l'Apple ID du compte payant.
-2. Section **Membership details** : relève le **Team ID** (10 caractères,
-   lettres et chiffres).
-3. Dans Xcode : **Xcode → Settings → Accounts**, ajoute l'Apple ID s'il n'y est
-   pas, sélectionne l'équipe payante, puis **Manage Certificates → + → Apple
-   Distribution**. C'est le certificat qui signe les builds destinés à l'App
-   Store ; sans lui, l'archive échoue.
-4. Dans [`project.yml`](../../project.yml), remplace la valeur de
-   `DEVELOPMENT_TEAM` par ce Team ID. C'est le **seul** endroit à modifier :
-   `scripts/release.sh` vérifie la cohérence et refuse de partir si tu oublies.
+**Il reste le certificat de distribution.** Cette équipe est pour l'instant
+inconnue de ce Mac : ni certificat, ni profil de provisionnement. Dans Xcode :
+
+1. **Xcode → Settings → Accounts** : ajoute l'Apple ID du compte payant s'il n'y
+   figure pas (mot de passe + double authentification, donc à faire toi-même).
+2. Sélectionne l'équipe `AXVF69V3LL`, puis **Manage Certificates → + → Apple
+   Distribution**.
+
+C'est le certificat qui signe les builds destinés à l'App Store ; sans lui,
+l'étape d'archive échoue. `release.sh` prévient dès le départ s'il ne le trouve
+pas — en simple avertissement, parce que la signature automatique sait aussi
+utiliser un certificat géré par Apple dans le nuage.
 
 > Le compte payant supprime au passage la limite des 7 jours : une app installée
 > depuis Xcode reste valide un an au lieu d'expirer chaque semaine.
