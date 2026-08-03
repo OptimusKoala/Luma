@@ -86,6 +86,19 @@ if [[ ! -f "$cle" ]]; then
     "Attention : Apple ne permet de la télécharger qu'une seule fois."
 fi
 
+# altool ne reçoit pas le chemin de la clé : il reconstruit le nom de fichier
+# à partir du Key ID, puis le cherche dans quatre dossiers conventionnels et
+# dans $API_PRIVATE_KEYS_DIR. On lui désigne donc le dossier de la clé, ce qui
+# évite d'avoir à la déplacer ou à la dupliquer.
+if [[ "$(basename "$cle")" != "AuthKey_${ASC_KEY_ID}.p8" ]]; then
+  echec "Le nom du fichier de clé ne correspond pas au Key ID." \
+    "attendu : AuthKey_${ASC_KEY_ID}.p8" \
+    "trouvé  : $(basename "$cle")" \
+    "altool déduit le nom du fichier du Key ID : renomme la clé, ou corrige" \
+    "ASC_KEY_ID dans scripts/release.env."
+fi
+export API_PRIVATE_KEYS_DIR="$(dirname "$cle")"
+
 command -v xcodegen >/dev/null || echec "xcodegen est absent (brew install xcodegen)"
 
 vert "✓ team $LUMA_TEAM_ID · clé ${ASC_KEY_ID}"

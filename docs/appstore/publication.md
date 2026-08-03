@@ -94,13 +94,11 @@ de Xcode.
    **Intégrations** → **App Store Connect API** → onglet **Clés d'équipe**.
 2. **+**, nomme la clé (`Luma release`), rôle **App Manager**, puis **Générer**.
 3. **Télécharge le fichier `.p8` immédiatement** : Apple ne le propose qu'une
-   seule fois. Range-le là où les outils Apple le cherchent :
-
-   ```bash
-   mkdir -p ~/.appstoreconnect/private_keys
-   mv ~/Downloads/AuthKey_XXXXXXXXXX.p8 ~/.appstoreconnect/private_keys/
-   ```
-
+   seule fois. Range-le hors du dépôt, en lecture pour toi seul
+   (`chmod 600`). Le dossier est libre — `release.sh` le communique à `altool`
+   par `API_PRIVATE_KEYS_DIR` — mais **garde le nom `AuthKey_<KeyID>.p8`** :
+   `altool` reconstruit ce nom à partir du Key ID et ne trouverait pas un
+   fichier renommé.
 4. Relève le **Key ID** (sur la ligne de la clé) et l'**Issuer ID** (au-dessus
    du tableau, commun à toutes les clés).
 5. Renseigne le tout :
