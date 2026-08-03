@@ -9,8 +9,30 @@ import AppKit
 import ImageIO
 import UniformTypeIdentifiers
 
+// Paramètres, pour pouvoir comparer des variantes sans dupliquer le tracé :
+//   --couverture <n>  part de la largeur occupée par le motif (défaut 0,78)
+//   --coeur <n>       rayon du point rouge dans l'espace 100×100 (défaut 6,5)
+//   --sortie <chemin>
+//
+// L'ancienne valeur de couverture était 0,53 : le motif y paraissait petit et
+// fragile, et le cœur rouge tombait à 2 px dans les listes de réglages.
+func argument(_ nom: String, defaut: CGFloat) -> CGFloat {
+    guard let index = CommandLine.arguments.firstIndex(of: nom),
+          index + 1 < CommandLine.arguments.count,
+          let valeur = Double(CommandLine.arguments[index + 1]) else { return defaut }
+    return CGFloat(valeur)
+}
+
 let side = 1024
-let outputPath = "Luma/Assets.xcassets/AppIcon.appiconset/icon-1024.png"
+let couverture = argument("--couverture", defaut: 0.78)
+let rayonCoeur = argument("--coeur", defaut: 6.5)
+let outputPath: String = {
+    if let index = CommandLine.arguments.firstIndex(of: "--sortie"),
+       index + 1 < CommandLine.arguments.count {
+        return CommandLine.arguments[index + 1]
+    }
+    return "Luma/Assets.xcassets/AppIcon.appiconset/icon-1024.png"
+}()
 
 // Palette (Theme.swift) — crème, rouge FM2, cuir.
 let cream = CGColor(red: 0.94, green: 0.93, blue: 0.90, alpha: 1)
@@ -36,8 +58,11 @@ ctx.drawLinearGradient(gradient,
                        start: CGPoint(x: 0, y: sideF),
                        end: CGPoint(x: sideF, y: 0), options: [])
 
-// Logo centré, ~62 % du cadre. Espace de référence 100×100, centre (50,50).
-let scale = sideF * 0.62 / 100
+// Logo centré. Espace de référence 100×100, centre (50,50).
+// L'emprise réelle du motif est le fût : cercle r=40 plus son trait de 5,
+// soit 85 unités. C'est cette emprise que « couverture » cadre, et non les
+// 100 unités de l'espace de référence — sans quoi la marge serait trompeuse.
+let scale = sideF * couverture / 85
 let center = CGPoint(x: sideF / 2, y: sideF / 2)
 func pt(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
     // Coordonnées façon SVG (y vers le bas) → CoreGraphics (y vers le haut).
@@ -68,8 +93,10 @@ for blade in 0..<7 {
 
 // Cœur rouge : r=5.
 ctx.setFillColor(fm2Red)
-ctx.fillEllipse(in: CGRect(x: center.x - 5 * scale, y: center.y - 5 * scale,
-                           width: 10 * scale, height: 10 * scale))
+ctx.fillEllipse(in: CGRect(x: center.x - rayonCoeur * scale,
+                           y: center.y - rayonCoeur * scale,
+                           width: rayonCoeur * 2 * scale,
+                           height: rayonCoeur * 2 * scale))
 
 guard let image = ctx.makeImage() else { fatalError("makeImage failed") }
 try FileManager.default.createDirectory(
