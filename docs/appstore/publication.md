@@ -196,21 +196,29 @@ Sans déclaration, l'app est retirée des boutiques de l'Union européenne.
 
 **Utilisateurs et accès → Informations de conformité → Statut de professionnel.**
 
-D'après Apple, tu n'es probablement **pas** un professionnel si tu agis « à des
-fins qui n'entrent pas dans le cadre de ton activité commerciale, industrielle,
-artisanale ou libérale » — le cas d'un projet personnel gratuit, développé sans
-intention de le commercialiser. Deux conséquences concrètes :
+**Choix retenu pour Luma : compte professionnel (*trader*).** Le compte
+développeur est un compte **organisation**, au nom de L'ELITE DANGEREUSE : Apple
+considère qu'un statut légal lié à une activité économique fait présumer le
+statut de professionnel, et cela indépendamment du fait que l'app soit gratuite.
 
-- **Non professionnel** : aucune coordonnée personnelle publiée. Les
-  utilisateurs de l'UE sont informés que les droits de la consommation ne
-  s'appliquent pas au contrat qui les lie à toi.
-- **Professionnel** : nom, adresse postale, téléphone et e-mail sont **affichés
-  publiquement** sur la page de l'app, et vérifiés par Apple.
+Ce qu'il faut donc fournir, et qui sera **affiché publiquement sur la page App
+Store** de Luma, au titre de l'article 30 du DSA :
 
-**Choix retenu pour Luma : « This is not a trader account »** — l'app est
-gratuite, sans monétisation d'aucune sorte, ce qui correspond à la définition du
-non-professionnel, et aucune coordonnée personnelle n'est alors publiée. Cette
-déclaration t'engage : si un jour tu monétises l'app, il faudra la mettre à jour.
+| Champ | Valeur |
+|---|---|
+| Raison sociale | L'ELITE DANGEREUSE |
+| Adresse postale | celle de la structure |
+| Téléphone | celui de la structure |
+| Adresse e-mail | `contact@elitedangereuse.fr` |
+
+Apple **vérifie** ces informations : prévoir un délai avant que l'app soit
+distribuable dans l'Union européenne, et une éventuelle demande de justificatif.
+Ce sont les coordonnées de la structure qui apparaissent, pas des coordonnées
+personnelles.
+
+Conséquence annexe : les droits de la consommation de l'UE s'appliquent au
+contrat qui te lie aux utilisateurs — sans grande portée pratique pour une app
+gratuite, mais c'est la contrepartie du statut.
 
 ## 8. Envoyer le build
 

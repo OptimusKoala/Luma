@@ -16,7 +16,7 @@ sont indiquées entre parenthèses ; les longueurs réelles sont vérifiables av
 | **Langue principale** | Français (France) |
 | **Catégorie principale** | Photo et vidéo |
 | **Catégorie secondaire** | Utilitaires |
-| **Droits d'auteur** | `2026 Michaël Bernard` |
+| **Droits d'auteur** | `2026 L'ELITE DANGEREUSE` |
 | **Classification par âge** | 4+ (voir §5) |
 | **Prix** | Gratuit |
 | **Disponibilité** | Tous les pays et régions |
