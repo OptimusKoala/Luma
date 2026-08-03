@@ -221,10 +221,11 @@ Le code source est public : https://github.com/OptimusKoala/Luma
 
 ## 7. Captures d'écran
 
-Apple exige au minimum une série pour l'iPhone **6,9"** (1290 × 2796 px, portrait).
-Elle est réutilisée automatiquement pour toutes les autres tailles d'iPhone.
-Voir `scripts/screenshots.sh` : il capture l'écran de l'iPhone connecté et
-redimensionne au format exigé.
+Apple exige au minimum une série pour l'iPhone **6,9"**. Elle est réutilisée
+automatiquement pour toutes les autres tailles d'iPhone. Les cinq captures en
+place sont produites par `scripts/screenshots-simulateur.sh` en **1320 × 2868**,
+résolution native du simulateur iPhone 17 Pro Max et taille acceptée pour ce
+créneau — aucun redimensionnement.
 
 Trois à cinq captures suffisent. Ordre conseillé (la première est celle qu'on voit
 dans les résultats de recherche) :

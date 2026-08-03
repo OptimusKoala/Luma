@@ -7,9 +7,11 @@
 #
 # Le simulateur n'a pas de caméra. L'app est donc lancée en mode captures
 # (LUMA_SCREENSHOT, compilé en DEBUG uniquement — voir Luma/Views/
-# ScreenshotMode.swift) : le viseur affiche une scène dessinée par code, et l'EV
-# de cette scène traverse le vrai ExposureCalculator. Les valeurs visibles sont
-# celles que l'app calcule, la scène seule est synthétique.
+# ScreenshotMode.swift) : le viseur reçoit une photo de scène en domaine public
+# ou CC0 (docs/appstore/captures/scenes/, récupérées par
+# scripts/photos-scenes.py), et l'EV de cette scène traverse le vrai
+# ExposureCalculator. Les valeurs visibles sont celles que l'app calcule ; seule
+# la lumière d'entrée est fournie, et elle correspond à la photo affichée.
 #
 # Pour des captures sur de vraies scènes photographiées, utiliser plutôt
 # scripts/screenshots.sh, qui reformate des captures prises sur l'iPhone.
@@ -24,6 +26,7 @@ readonly BUNDLE=com.michaelbernard69.Luma
 readonly RACINE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly DD="$RACINE/build/dd-simulateur"
 readonly CIBLE="$RACINE/docs/appstore/captures/6.9"
+readonly PHOTOS="$RACINE/docs/appstore/captures/scenes"
 
 # Ordre des captures = ordre de la fiche App Store. La première est celle qui
 # apparaît dans les résultats de recherche.
@@ -90,7 +93,10 @@ for entree in "${SCENES[@]}"; do
   nom="$(printf '%02d' "$index")-$scene.png"
 
   xcrun simctl terminate "$udid" "$BUNDLE" 2>/dev/null || true
+  # Le simulateur lit le disque de l'hôte : les photos de scène restent hors
+  # du bundle. Dossier absent → l'app retombe sur la scène dessinée par code.
   SIMCTL_CHILD_LUMA_SCREENSHOT="$scene" \
+  SIMCTL_CHILD_LUMA_SCREENSHOT_DIR="$PHOTOS" \
     xcrun simctl launch "$udid" "$BUNDLE" >/dev/null
   sleep "$attente"
   xcrun simctl io "$udid" screenshot --type=png "$CIBLE/$nom" >/dev/null 2>&1

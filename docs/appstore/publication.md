@@ -154,19 +154,39 @@ acceptée pour le créneau 6,9"), déjà téléversées sur la fiche :
 ./scripts/screenshots-simulateur.sh
 ```
 
-Le simulateur n'a pas de caméra. Le viseur reçoit donc une scène **dessinée par
-code** — dégradés, horizon, masses floues — définie dans
+Le simulateur n'a pas de caméra. Le viseur reçoit donc une **photo de scène**,
+lue sur le disque du Mac par le mode captures de
 [`Luma/Views/ScreenshotMode.swift`](../../Luma/Views/ScreenshotMode.swift), sous
-`#if DEBUG` : rien de tout cela n'existe dans le binaire envoyé à Apple.
+`#if DEBUG` : rien de tout cela n'existe dans le binaire envoyé à Apple, et
+aucune photo n'est embarquée dans le bundle.
 
-Deux choix qui comptent :
+```bash
+python3 scripts/photos-scenes.py                    # récupérer les photos
+python3 scripts/photos-scenes.py --chercher "…"     # en chercher d'autres
+```
 
-- **Aucune photographie.** Une capture App Store contenant une photo dont on n'a
-  pas les droits est un motif de retrait. Les scènes sont synthétiques, donc
-  libres.
-- **Les valeurs ne sont pas truquées.** Seul l'EV de la scène est injecté ; c'est
-  le vrai `ExposureCalculator` qui produit ouverture, vitesse et ISO. Les
-  chiffres visibles sont ceux que l'app calcule pour cette lumière.
+Trois exigences sur ces photos, et le script en applique deux automatiquement :
+
+- **Domaine public ou CC0 uniquement.** Une capture App Store est un usage
+  commercial où l'on ne peut afficher aucun crédit : les licences à attribution
+  (CC-BY, CC-BY-SA) sont donc exclues. Le script vérifie la licence par l'API
+  Wikimedia Commons et refuse tout le reste. Provenance de chaque image dans
+  [`scenes/CREDITS.md`](captures/scenes/CREDITS.md).
+- **Aucune personne identifiable.** Le droit à l'image est indépendant de la
+  licence : une CC0 ne vaut pas autorisation du modèle. À vérifier à l'œil, le
+  script ne peut pas le faire.
+- **Aucun filigrane.** Certaines images de Commons proviennent de banques qui y
+  laissent leur marque. Également à vérifier à l'œil.
+
+Faute de photos, le mode retombe sur une scène **dessinée par code** — dégradés,
+horizon, masses floues : le pipeline reste utilisable sans rien télécharger.
+
+**Les valeurs ne sont pas truquées.** Seul l'EV de la scène est injecté ; c'est le
+vrai `ExposureCalculator` qui produit ouverture, vitesse et ISO. Les chiffres
+visibles sont ceux que l'app calcule pour cette lumière — et cet EV doit rester
+crédible pour la photo affichée. C'est pourquoi la capture « trop sombre » montre
+un ciel étoilé et non une rue de nuit : une rue éclairée est vers EV 4, où l'app
+donnerait f/2.8 · 1/8 au lieu d'un refus.
 
 Les captures du simulateur portant un canal alpha qu'Apple refuse,
 `scripts/aplatir-png.swift` les redessine dans un contexte opaque.

@@ -149,7 +149,7 @@ enum ScreenshotMode {
         // d'ombre, celle qu'on veut exposer correctement. Le haut du ciel reste
         // en demi-teinte pour que les libellés du viseur restent lisibles.
         "spot": Scene(
-            ev100: 13, filmName: "HP5+ 400", spot: CGPoint(x: 0.42, y: 0.70),
+            ev100: 13, filmName: "HP5+ 400", spot: CGPoint(x: 0.34, y: 0.42),
             dialOffset: nil, showFilmPicker: false,
             decor: Decor(
                 ciel: [Color(red: 0.38, green: 0.46, blue: 0.56),
@@ -198,12 +198,26 @@ enum ScreenshotMode {
                 flou: 0.002)),
     ]
 
+    /// Clé de la scène demandée au lancement.
+    static let cleCourante: String? =
+        ProcessInfo.processInfo.environment["LUMA_SCREENSHOT"]
+
     /// Scène demandée au lancement, s'il y en a une.
-    static let current: Scene? = {
-        guard let cle = ProcessInfo.processInfo.environment["LUMA_SCREENSHOT"] else {
-            return nil
-        }
-        return scenes[cle]
+    static let current: Scene? = cleCourante.flatMap { scenes[$0] }
+
+    /// Photo de la scène, si le dossier a été fourni et le fichier lisible.
+    ///
+    /// Les photos ne sont **pas** embarquées dans l'app : elles sont lues sur le
+    /// disque du Mac, ce que le simulateur permet. Le bundle reste donc
+    /// inchangé, en Debug comme en Release.
+    ///
+    /// Faute de photo, on retombe sur la scène dessinée par code
+    /// (`SyntheticSceneView`) : le mode reste utilisable sans rien télécharger.
+    static let photoCourante: UIImage? = {
+        guard let cle = cleCourante,
+              let dossier = ProcessInfo.processInfo.environment["LUMA_SCREENSHOT_DIR"]
+        else { return nil }
+        return UIImage(contentsOfFile: "\(dossier)/\(cle).jpg")
     }()
 }
 

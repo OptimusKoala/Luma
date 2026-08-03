@@ -53,9 +53,18 @@ struct ViewfinderView: View {
                 }
             } else {
                 #if DEBUG
-                // Mode captures d'écran : scène dessinée, faute de caméra sur
-                // simulateur (voir ScreenshotMode).
-                if let scene = ScreenshotMode.current {
+                // Mode captures d'écran, faute de caméra sur simulateur : une
+                // photo de scène si elle a été fournie, sinon la scène dessinée
+                // par code (voir ScreenshotMode).
+                if let photo = ScreenshotMode.photoCourante {
+                    GeometryReader { geo in
+                        Image(uiImage: photo)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width, height: geo.size.height)
+                            .clipped()
+                    }
+                } else if let scene = ScreenshotMode.current {
                     SyntheticSceneView(decor: scene.decor)
                 } else {
                     fondNeutre
