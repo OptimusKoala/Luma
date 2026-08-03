@@ -52,22 +52,37 @@ struct ViewfinderView: View {
                     }
                 }
             } else {
-                // Preview Xcode / simulateur : fond neutre.
-                LinearGradient(colors: [Color(white: 0.35), Color(white: 0.15)],
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                #if DEBUG
+                // Mode captures d'écran : scène dessinée, faute de caméra sur
+                // simulateur (voir ScreenshotMode).
+                if let scene = ScreenshotMode.current {
+                    SyntheticSceneView(decor: scene.decor)
+                } else {
+                    fondNeutre
+                }
+                #else
+                fondNeutre
+                #endif
             }
 
             if let spot = camera.spotPoint {
-                Circle()
-                    .stroke(Theme.cream, lineWidth: 1.5)
-                    .frame(width: 44, height: 44)
-                    .position(spot)
-                    .shadow(radius: 4)
+                cercleSpot.position(spot)
             }
+
+            #if DEBUG
+            // Le cercle spot des captures est posé en coordonnées relatives :
+            // sa position ne peut être connue qu'à la mise en page.
+            if let relatif = ScreenshotMode.current?.spot {
+                GeometryReader { geo in
+                    cercleSpot.position(x: geo.size.width * relatif.x,
+                                       y: geo.size.height * relatif.y)
+                }
+            }
+            #endif
 
             VStack {
                 HStack {
-                    Text(camera.spotPoint == nil ? "MESURE MOYENNE" : "MESURE SPOT")
+                    Text(mesureSpotActive ? "MESURE SPOT" : "MESURE MOYENNE")
                     Spacer()
                     if let ev100 {
                         Text("EV \(ev100, specifier: "%.1f")")
@@ -87,6 +102,26 @@ struct ViewfinderView: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .overlay(RoundedRectangle(cornerRadius: 18)
             .strokeBorder(Theme.leather, lineWidth: 3))
+    }
+
+    /// Preview Xcode / simulateur sans mesure : fond neutre.
+    private var fondNeutre: some View {
+        LinearGradient(colors: [Color(white: 0.35), Color(white: 0.15)],
+                       startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+
+    private var cercleSpot: some View {
+        Circle()
+            .stroke(Theme.cream, lineWidth: 1.5)
+            .frame(width: 44, height: 44)
+            .shadow(radius: 4)
+    }
+
+    private var mesureSpotActive: Bool {
+        #if DEBUG
+        if ScreenshotMode.current?.spot != nil { return true }
+        #endif
+        return camera.spotPoint != nil
     }
 }
 

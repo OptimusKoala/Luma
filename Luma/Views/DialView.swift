@@ -43,6 +43,17 @@ struct DialView: View {
                 .onChange(of: activeID) { _, id in
                     withAnimation(.snappy) { proxy.scrollTo(id, anchor: .center) }
                 }
+                .task(id: pairs.map(\.id)) {
+                    // Au premier affichage — et à chaque fois que la lumière
+                    // renouvelle la liste — amener la paire active sous les
+                    // yeux. Sans ça, une recommandation située au-delà de la
+                    // largeur visible reste hors champ, et l'utilisateur voit
+                    // une molette qui commence à f/2.8 sans cadre rouge.
+                    // Le court délai laisse la mise en page se terminer :
+                    // scrollTo ne peut rien viser avant.
+                    try? await Task.sleep(for: .milliseconds(60))
+                    proxy.scrollTo(activeID, anchor: .center)
+                }
             }
             Text("◂ FLOU D'ARRIÈRE-PLAN · NETTETÉ PARTOUT ▸")
                 .font(.system(size: 8, weight: .semibold))

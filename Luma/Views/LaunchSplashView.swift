@@ -8,13 +8,25 @@ struct RootView: View {
 
     var body: some View {
         ZStack {
+            #if DEBUG
+            // Mode captures : EV injecté, et pas d'animation de lancement à
+            // attendre — l'écran doit être stable tout de suite.
+            MeterView(demoEV100: ScreenshotMode.current?.ev100)
+            #else
             MeterView()
+            #endif
             if showSplash {
                 LaunchSplashView()
                     .transition(.opacity)
             }
         }
         .task {
+            #if DEBUG
+            if ScreenshotMode.current != nil {
+                showSplash = false
+                return
+            }
+            #endif
             try? await Task.sleep(for: .seconds(1.7))
             withAnimation(.easeOut(duration: 0.45)) { showSplash = false }
         }

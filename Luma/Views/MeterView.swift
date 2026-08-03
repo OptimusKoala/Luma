@@ -33,6 +33,9 @@ struct MeterView: View {
                let saved = try? JSONDecoder().decode(FilmStock.self, from: filmData) {
                 film = saved
             }
+            #if DEBUG
+            await appliquerSceneDeCapture()
+            #endif
         }
         .onChange(of: camera.reading) { _, reading in
             guard let reading else { return }
@@ -127,6 +130,31 @@ struct MeterView: View {
         Theme.background.ignoresSafeArea()
             .overlay(CameraDeniedView())
     }
+
+    #if DEBUG
+    /// Place l'écran dans l'état voulu par la capture demandée : pellicule,
+    /// molette déplacée, sélecteur ouvert. L'EV, lui, arrive par `demoEV100`,
+    /// et les valeurs affichées restent calculées par `ExposureCalculator`.
+    private func appliquerSceneDeCapture() async {
+        guard let scene = ScreenshotMode.current else { return }
+        let pellicule = scene.film ?? film
+        film = pellicule
+
+        // Changer de pellicule remet la molette sur la recommandation, par
+        // `.onChange(of: film)` ci-dessus. Il faut donc laisser ce cycle se
+        // terminer avant de déplacer la sélection, sinon elle est effacée
+        // juste après avoir été posée.
+        try? await Task.sleep(for: .milliseconds(300))
+
+        if let decalage = scene.dialOffset,
+           case let .recommendation(pairs, recommande) =
+               ExposureCalculator.result(ev100: scene.ev100, filmISO: pellicule.iso),
+           let choisie = pairs[safe: recommande + decalage] {
+            dialSelection = choisie.id
+        }
+        showFilmPicker = scene.showFilmPicker
+    }
+    #endif
 }
 
 #Preview("Plein jour") { MeterView(demoEV100: 14) }
