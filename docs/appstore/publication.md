@@ -16,7 +16,7 @@ par Apple.
 | 5. ~~Créer la fiche de l'app~~ | App Store Connect | ✅ fait |
 | 6. ~~Captures d'écran~~ | `scripts/screenshots-simulateur.sh` | ✅ fait |
 | 7. Remplir la fiche | `scripts/fiche-appstore.py` | ✅ textes · 4 points restants |
-| 8. ~~Envoyer le build~~ | `scripts/release.sh` | ✅ build 2 |
+| 8. ~~Envoyer le build~~ | `scripts/release.sh` | ✅ build 3 |
 | 9. Vérifier via TestFlight | ton iPhone | toi |
 | 10. Soumettre à la validation | App Store Connect | toi |
 
@@ -276,14 +276,16 @@ Conséquence annexe : les droits de la consommation de l'UE s'appliquent au
 contrat qui te lie aux utilisateurs — sans grande portée pratique pour une app
 gratuite, mais c'est la contrepartie du statut.
 
-## 8. Envoyer le build — ✅ build 2 en place
+## 8. Envoyer le build — ✅ build 3 en place
 
-Envoyé le 2026-08-03, traité par Apple (`VALID`) et **rattaché à la version
-1.0**. C'est ce rattachement qui donne son icône à la fiche : Apple l'extrait du
-binaire, elle ne se téléverse pas.
+Build 3 envoyé le 2026-08-07 (correctif du refus 2.1(a), voir §10) : après
+traitement par Apple (5 à 30 min), le **rattacher à la version 1.0** à la place
+du build 2. C'est ce rattachement qui donne son icône à la fiche : Apple
+l'extrait du binaire, elle ne se téléverse pas.
 
-> Le build 1 portait l'icône au cadrage d'origine (53 % de la tuile). Le build 2
-> porte le cadrage à 78 % — mesuré à 77 % sur l'asset servi par Apple.
+> Le build 1 portait l'icône au cadrage d'origine (53 % de la tuile). Les
+> builds suivants portent le cadrage à 78 % — mesuré à 77 % sur l'asset servi
+> par Apple.
 
 > Ce build **expire le 2026-11-01**. Passé ce délai sans soumission, il faudra en
 > renvoyer un : `./scripts/release.sh --bump`.
