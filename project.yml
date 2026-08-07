@@ -14,7 +14,7 @@ settings:
     DEVELOPMENT_TEAM: AXVF69V3LL
     # Version publique (App Store) et numéro de build (unique par envoi).
     MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "2"
+    CURRENT_PROJECT_VERSION: "3"
 targets:
   Luma:
     type: application

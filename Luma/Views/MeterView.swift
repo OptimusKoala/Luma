@@ -8,11 +8,21 @@ struct MeterView: View {
     @State private var smoothedEV: Double?
     @State private var dialSelection: ExposurePair.ID?
     @State private var showFilmPicker = false
+    @State private var manualScene: LightScene = .default
 
     /// Preview Xcode / simulateur : EV fixe pour travailler l'interface.
     var demoEV100: Double? = nil
 
-    private var ev100: Double? { demoEV100 ?? smoothedEV }
+    /// Caméra refusée ou absente : l'app bascule en mesure manuelle par
+    /// scènes types au lieu d'exiger un détour par les Réglages — elle doit
+    /// rester utilisable telle quelle (rejet App Store 2.1(a) du 2026-08-07).
+    private var manualMode: Bool {
+        camera.status == .denied || camera.status == .unavailable
+    }
+
+    private var ev100: Double? {
+        demoEV100 ?? (manualMode ? manualScene.ev100 : smoothedEV)
+    }
 
     private var result: MeterResult? {
         ev100.map { ExposureCalculator.result(ev100: $0, filmISO: film.iso) }
@@ -21,8 +31,15 @@ struct MeterView: View {
     var body: some View {
         VStack(spacing: 16) {
             header
-            ViewfinderView(camera: camera, ev100: ev100)
-                .frame(maxHeight: .infinity)
+            Group {
+                if manualMode {
+                    ManualSceneView(selection: $manualScene,
+                                    cameraDenied: camera.status == .denied)
+                } else {
+                    ViewfinderView(camera: camera, ev100: ev100)
+                }
+            }
+            .frame(maxHeight: .infinity)
             bottomPanel
         }
         .padding(16)
@@ -45,6 +62,9 @@ struct MeterView: View {
             dialSelection = nil
             filmData = try? JSONEncoder().encode(newValue)
         }
+        // Changer de scène type = nouvelle lumière : la molette revient
+        // sur la recommandation, comme au changement de pellicule.
+        .onChange(of: manualScene) { dialSelection = nil }
         .onChange(of: result) { _, newValue in
             guard let dialSelection else { return }
             if case let .recommendation(pairs, _) = newValue,
@@ -55,9 +75,6 @@ struct MeterView: View {
         }
         .sheet(isPresented: $showFilmPicker) {
             FilmPickerSheet(film: $film)
-        }
-        .overlay {
-            if camera.status == .denied { deniedOverlay }
         }
     }
 
@@ -124,11 +141,6 @@ struct MeterView: View {
         .frame(maxWidth: .infinity, minHeight: 120)
         .background(RoundedRectangle(cornerRadius: 14)
             .fill(Theme.leather.opacity(0.06)))
-    }
-
-    private var deniedOverlay: some View {
-        Theme.background.ignoresSafeArea()
-            .overlay(CameraDeniedView())
     }
 
     #if DEBUG

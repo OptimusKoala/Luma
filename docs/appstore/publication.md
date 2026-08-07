@@ -347,6 +347,20 @@ En cas de refus, Apple explique précisément quoi corriger dans **App Store
 Connect → Résolution Center**. On corrige, `./scripts/release.sh --bump`, et on
 resoumet — sans repayer, sans limite de tentatives.
 
+### Refus du 2026-08-07 — guideline 2.1(a), corrigé au build 3
+
+Premier refus, testé sur iPad Pro 11" M4 (les apps iPhone doivent aussi marcher
+sur iPad, en mode compatibilité) : « The app launched to a screen which
+redirected us to settings ». Permission caméra refusée → l'app entière se
+réduisait à un écran « Ouvrir les Réglages », sans aucune autre fonction. Les
+testeurs refusent systématiquement la permission pour vérifier ce cas.
+
+Correctif (build 3) : caméra refusée ou absente → **mesure manuelle** par
+scènes types (table Sunny 16, `LightScene.swift`) ; molette, recommandation et
+pédagogie restent pleinement utilisables, le lien vers les Réglages n'est plus
+qu'un rappel discret. Ne jamais réintroduire d'écran bloquant conditionné à une
+permission.
+
 ---
 
 ## Pour les versions suivantes
